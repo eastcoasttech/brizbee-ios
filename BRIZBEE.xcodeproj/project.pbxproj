@@ -8,12 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		1C2434C8230CF69D00231CC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C7230CF69D00231CC2 /* AppDelegate.swift */; };
-		1C2434CA230CF69D00231CC2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C9230CF69D00231CC2 /* ViewController.swift */; };
+		1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C9230CF69D00231CC2 /* LoginViewController.swift */; };
 		1C2434CD230CF69D00231CC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434CB230CF69D00231CC2 /* Main.storyboard */; };
 		1C2434CF230CF69F00231CC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434CE230CF69F00231CC2 /* Assets.xcassets */; };
 		1C2434D2230CF69F00231CC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434D0230CF69F00231CC2 /* LaunchScreen.storyboard */; };
 		1C2434DD230CF69F00231CC2 /* BRIZBEETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434DC230CF69F00231CC2 /* BRIZBEETests.swift */; };
 		1C2434E8230CF69F00231CC2 /* BRIZBEEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434E7230CF69F00231CC2 /* BRIZBEEUITests.swift */; };
+		1C595F2F2351676E00AD529C /* ScanBarCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C595F2E2351676E00AD529C /* ScanBarCodeViewController.swift */; };
+		1C73A2102352430900A361B5 /* TaskNumberDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */; };
+		1C7A1367234BB09E006A2790 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A1366234BB09E006A2790 /* Auth.swift */; };
+		1CD2B93723242DB700B2B0D8 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93623242DB700B2B0D8 /* StatusViewController.swift */; };
+		1CD2B9392325DE2100B2B0D8 /* PunchInTaskIdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B9382325DE2100B2B0D8 /* PunchInTaskIdViewController.swift */; };
+		1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */; };
+		1CD2B93D2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */; };
+		1CD2FBDD234AEE1D00B5CAF0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2FBDC234AEE1D00B5CAF0 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +44,7 @@
 /* Begin PBXFileReference section */
 		1C2434C4230CF69D00231CC2 /* BRIZBEE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BRIZBEE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C2434C7230CF69D00231CC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1C2434C9230CF69D00231CC2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1C2434C9230CF69D00231CC2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1C2434CC230CF69D00231CC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1C2434CE230CF69F00231CC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C2434D1230CF69F00231CC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +55,14 @@
 		1C2434E3230CF69F00231CC2 /* BRIZBEEUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BRIZBEEUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C2434E7230CF69F00231CC2 /* BRIZBEEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRIZBEEUITests.swift; sourceTree = "<group>"; };
 		1C2434E9230CF69F00231CC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C595F2E2351676E00AD529C /* ScanBarCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanBarCodeViewController.swift; sourceTree = "<group>"; };
+		1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNumberDelegate.swift; sourceTree = "<group>"; };
+		1C7A1366234BB09E006A2790 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		1CD2B93623242DB700B2B0D8 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
+		1CD2B9382325DE2100B2B0D8 /* PunchInTaskIdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInTaskIdViewController.swift; sourceTree = "<group>"; };
+		1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInConfirmViewController.swift; sourceTree = "<group>"; };
+		1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchOutConfirmViewController.swift; sourceTree = "<group>"; };
+		1CD2FBDC234AEE1D00B5CAF0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +114,19 @@
 			isa = PBXGroup;
 			children = (
 				1C2434C7230CF69D00231CC2 /* AppDelegate.swift */,
-				1C2434C9230CF69D00231CC2 /* ViewController.swift */,
+				1C2434C9230CF69D00231CC2 /* LoginViewController.swift */,
 				1C2434CB230CF69D00231CC2 /* Main.storyboard */,
 				1C2434CE230CF69F00231CC2 /* Assets.xcassets */,
 				1C2434D0230CF69F00231CC2 /* LaunchScreen.storyboard */,
 				1C2434D3230CF69F00231CC2 /* Info.plist */,
+				1CD2B93623242DB700B2B0D8 /* StatusViewController.swift */,
+				1CD2B9382325DE2100B2B0D8 /* PunchInTaskIdViewController.swift */,
+				1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */,
+				1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */,
+				1CD2FBDC234AEE1D00B5CAF0 /* User.swift */,
+				1C7A1366234BB09E006A2790 /* Auth.swift */,
+				1C595F2E2351676E00AD529C /* ScanBarCodeViewController.swift */,
+				1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */,
 			);
 			path = BRIZBEE;
 			sourceTree = "<group>";
@@ -256,8 +280,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C2434CA230CF69D00231CC2 /* ViewController.swift in Sources */,
+				1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */,
+				1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */,
+				1CD2B9392325DE2100B2B0D8 /* PunchInTaskIdViewController.swift in Sources */,
+				1CD2B93D2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift in Sources */,
+				1CD2B93723242DB700B2B0D8 /* StatusViewController.swift in Sources */,
+				1C595F2F2351676E00AD529C /* ScanBarCodeViewController.swift in Sources */,
+				1C73A2102352430900A361B5 /* TaskNumberDelegate.swift in Sources */,
 				1C2434C8230CF69D00231CC2 /* AppDelegate.swift in Sources */,
+				1CD2FBDD234AEE1D00B5CAF0 /* User.swift in Sources */,
+				1C7A1367234BB09E006A2790 /* Auth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
