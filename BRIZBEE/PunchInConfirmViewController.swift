@@ -7,14 +7,19 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
-class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, CLLocationManagerDelegate {
     var auth: Auth?
     var user: User?
     var task: [String: Any]?
     var timeZone: String?
     var timeZones: [String]?
     var taskNumber: [String]?
+    var latitude = ""
+    var longitude = ""
+    let locationManager = CLLocationManager()
     
     @IBOutlet weak var taskLabel: UILabel!
     @IBOutlet weak var taskHeaderLabel: UILabel!
@@ -24,6 +29,8 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
     @IBOutlet weak var customerHeaderLabel: UILabel!
     @IBOutlet weak var timeZoneTextField: UITextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -86,6 +93,15 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
                 picker.selectRow(index, inComponent: 0, animated: true)
             }
         }
+        
+        // Location only needed while app is open
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
     
     @IBAction func onContinueButton(_ sender: Any) {
@@ -95,8 +111,8 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         let json: [String: Any] = ["TaskId" : self.task!["Id"]!,
                                    "SourceForInAt": "Mobile",
                                    "InAtTimeZone": timeZoneTextField.text!,
-                                   "LatitudeForInAt": "",
-                                   "LongitudeForInAt": ""]
+                                   "LatitudeForInAt": latitude,
+                                   "LongitudeForInAt": longitude]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
@@ -105,14 +121,15 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         // Add json data to the body
         request.httpBody = jsonData
         
         // Set the headers
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        request.addValue(self.auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
+        request.addValue(self.auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
+        request.addValue(self.auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
         // Send the request
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -121,6 +138,7 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
                 self.toggleEnabled(enabled: true)
                 return
             }
+            
             let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
             if (responseJSON as? [String: Any]) != nil {
                 DispatchQueue.main.async {
@@ -166,14 +184,19 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         timeZoneTextField.text = timeZones![row]
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        latitude = String(locValue.latitude)
+        longitude = String(locValue.longitude)
+    }
+    
     func toggleEnabled(enabled: Bool) {
         self.loadingIndicator.isHidden = enabled
         
-        self.taskLabel.isHidden = enabled
-        self.taskHeaderLabel.isHidden = enabled
+        self.continueButton.isEnabled = enabled
+        self.cancelButton.isEnabled = enabled
+        self.taskLabel.isEnabled = enabled
         self.jobLabel.isHidden = enabled
-        self.jobHeaderLabel.isHidden = enabled
         self.customerLabel.isHidden = enabled
-        self.customerHeaderLabel.isHidden = enabled
     }
 }
