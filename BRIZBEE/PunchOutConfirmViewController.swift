@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import MapKit
 
 class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, CLLocationManagerDelegate {
     var auth: Auth?
