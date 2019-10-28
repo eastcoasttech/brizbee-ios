@@ -14,8 +14,8 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
     var auth: Auth?
     var user: User?
     var task: [String: Any]?
-    var timeZone: String?
     var timeZones: [String]?
+    var timeZone: String?
     var taskNumber: [String]?
     var latitude = ""
     var longitude = ""
@@ -61,7 +61,12 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timeZoneTextField.text = timeZone
+        // Time Zone may not be populated if user is not punched in
+        if timeZone?.isEmpty ?? true {
+            timeZoneTextField.text = user?.timeZone
+        } else {
+            timeZoneTextField.text = timeZone
+        }
         
         let picker: UIPickerView
         picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
@@ -83,7 +88,7 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
 
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
-
+        
         timeZoneTextField.inputView = picker
         timeZoneTextField.inputAccessoryView = toolBar
         
@@ -121,7 +126,6 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         // Add json data to the body
         request.httpBody = jsonData

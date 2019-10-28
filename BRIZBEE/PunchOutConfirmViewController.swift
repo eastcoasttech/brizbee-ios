@@ -7,14 +7,19 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
-class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, CLLocationManagerDelegate {
     var auth: Auth?
     var user: User?
     var timeZones: [String]?
     var timeZone: String?
+    var latitude = ""
+    var longitude = ""
+    let locationManager = CLLocationManager()
     
-    @IBOutlet weak var timeZoneText: UITextField!
+    @IBOutlet weak var timeZoneTextField: UITextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,7 +31,8 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timeZoneText.text = timeZone
+        // Time Zone will be populated because user is punched in
+        timeZoneTextField.text = timeZone
         
         let picker: UIPickerView
         picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
@@ -49,8 +55,8 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
 
-        timeZoneText.inputView = picker
-        timeZoneText.inputAccessoryView = toolBar
+        timeZoneTextField.inputView = picker
+        timeZoneTextField.inputAccessoryView = toolBar
         
         // Select the time zone
         for (index, element) in (self.timeZones?.enumerated())! {
@@ -58,10 +64,19 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
                 picker.selectRow(index, inComponent: 0, animated: true)
             }
         }
+        
+        // Location only needed while app is open
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
     
     @objc func donePicker() {
-        timeZoneText.resignFirstResponder()
+        timeZoneTextField.resignFirstResponder()
     }
     
     @IBAction func onContinueButton(_ sender: Any) {
@@ -69,7 +84,9 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         
         // Prepare json data
         let json: [String: Any] = ["SourceForOutAt": "Mobile",
-                                   "OutAtTimeZone": timeZoneText.text!]
+                                   "OutAtTimeZone": timeZoneTextField.text!,
+                                   "LatitudeForOutAt": latitude,
+                                   "LongitudeForOutAt": longitude]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
@@ -132,17 +149,18 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
     
     // Set text to selected time zone
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        timeZoneText.text = timeZones![row]
+        timeZoneTextField.text = timeZones![row]
     }
     
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        self.timeZonePicker.isHidden = false
-//        return false
-//    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        latitude = String(locValue.latitude)
+        longitude = String(locValue.longitude)
+    }
     
     func toggleEnabled(enabled: Bool) {
         self.loadingIndicator.isHidden = enabled
         
-        self.timeZoneText.isEnabled = enabled
+        self.timeZoneTextField.isEnabled = enabled
     }
 }

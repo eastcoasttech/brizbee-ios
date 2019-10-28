@@ -114,7 +114,8 @@ class LoginViewController: UIViewController {
                     let nameString = responseJSON["Name"] as? String ?? ""
                     let emailString = responseJSON["EmailAddress"] as? String ?? ""
                     let idString = responseJSON["Id"] as? String ?? ""
-                    self.user = User(name: nameString, emailAddress: emailString, id: idString)
+                    let timeZoneString = responseJSON["TimeZone"] as? String ?? ""
+                    self.user = User(name: nameString, emailAddress: emailString, id: idString, timeZone: timeZoneString)
 
                     // Push status view controller
                     if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status View Controller") as? StatusViewController {

@@ -12,4 +12,5 @@ struct User {
     let name: String
     let emailAddress: String
     let id: String
+    let timeZone: String
 }

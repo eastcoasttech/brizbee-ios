@@ -512,7 +512,7 @@
                         <outlet property="loadingIndicator" destination="nSP-T1-adH" id="GnE-QX-wgb"/>
                         <outlet property="taskHeaderLabel" destination="RNI-cU-EJJ" id="Isq-hl-B3Q"/>
                         <outlet property="taskLabel" destination="fDr-jj-AK4" id="6lz-rP-SOW"/>
-                        <outlet property="timeZoneTextField" destination="QQi-kI-mTK" id="EHO-8j-JDZ"/>
+                        <outlet property="timeZoneTextField" destination="QQi-kI-mTK" id="fbd-R2-jjx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VYa-MT-G7f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -601,7 +601,7 @@
                     <navigationItem key="navigationItem" id="qca-e8-LJe"/>
                     <connections>
                         <outlet property="loadingIndicator" destination="lCf-pz-wBp" id="nO9-h5-kZg"/>
-                        <outlet property="timeZoneText" destination="ki1-fs-1l1" id="j4t-eg-s14"/>
+                        <outlet property="timeZoneTextField" destination="ki1-fs-1l1" id="egJ-Ko-eMg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NQt-Lv-Xq9" userLabel="First Responder" sceneMemberID="firstResponder"/>

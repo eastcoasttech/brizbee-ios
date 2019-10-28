@@ -99,6 +99,7 @@ class StatusViewController: UIViewController {
                             // User is punched in
                             let valueFirstJSON = valueJSON.first as? [String: Any]
                             self.punchedInOrOutLabel.text = "You are PUNCHED IN"
+                            self.punchedInOrOutLabel.textColor = UIColor(red: 102/255, green: 180/255, blue: 49/255, alpha: 1.0)
                             
                             // Since
                             let inAt = valueFirstJSON?["InAt"] as? String ?? ""
@@ -115,8 +116,10 @@ class StatusViewController: UIViewController {
                             
                             // Since Time Zone
                             let inAtTimeZone = valueFirstJSON?["InAtTimeZone"] as? String ?? ""
-                            self.timeZone = inAtTimeZone
                             self.sinceTimeZoneLabel.text = inAtTimeZone
+                            
+                            // Use this time zone to punch in or out later
+                            self.timeZone = inAtTimeZone
                             
                             // Task
                             let task = valueFirstJSON?["Task"] as? [String: Any]
@@ -140,9 +143,15 @@ class StatusViewController: UIViewController {
                             self.customerLabel.text = customerString
                             
                             self.toggleLoading(loading: false) // Show everything
+                            
+                            self.punchOutButton.isEnabled = true
                         } else {
                             // User is punched out
                             self.punchedInOrOutLabel.text = "You are PUNCHED OUT"
+                            self.punchedInOrOutLabel.textColor = UIColor(red: 204/255, green: 0/255, blue: 0/255, alpha: 1.0)
+                            
+                            // Use this time zone to punch in later
+                            self.timeZone = self.user?.timeZone
                             
                             self.toggleLoading(loading: false) // Show everything
                             
@@ -155,7 +164,7 @@ class StatusViewController: UIViewController {
                             self.sinceLabel.isHidden = true
                             self.sinceHeaderLabel.isHidden = true
                             self.sinceTimeZoneLabel.isHidden = true
-                            self.punchOutButton.isHidden = true
+                            self.punchOutButton.isEnabled = false
                         }
                     }
                 }
