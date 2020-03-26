@@ -1,9 +1,26 @@
 //
 //  StatusViewController.swift
-//  BRIZBEE
+//  BRIZBEE Mobile for iOS
+//
+//  Copyright © 2019 East Coast Technology Services, LLC
+//
+//  This file is part of BRIZBEE Mobile for iOS.
+//
+//  BRIZBEE Mobile for iOS is free software: you can redistribute
+//  it and/or modify it under the terms of the GNU General Public
+//  License as published by the Free Software Foundation, either
+//  version 3 of the License, or (at your option) any later version.
+//
+//  BRIZBEE Mobile for iOS is distributed in the hope that it will
+//  be useful, but WITHOUT ANY WARRANTY; without even the implied
+//  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//  See the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with BRIZBEE Mobile for iOS.
+//  If not, see <https://www.gnu.org/licenses/>.
 //
 //  Created by Joshua Shane Martin on 8/20/19.
-//  Copyright © 2019 East Coast Technology Services, LLC. All rights reserved.
 //
 
 import UIKit
@@ -44,6 +61,9 @@ class StatusViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Must stop by default because it will be displayed
+        loadingIndicator.stopAnimating()
         
         navigationItem.hidesBackButton = true // Hides back button
         
@@ -175,21 +195,26 @@ class StatusViewController: UIViewController {
     }
     
     func toggleLoading(loading: Bool) {
-        self.loadingIndicator.isHidden = !loading
+        if (loading) {
+            loadingIndicator.startAnimating()
+        } else {
+            loadingIndicator.stopAnimating()
+        }
+        loadingIndicator.isHidden = !loading
         
-        self.nameLabel.isHidden = loading
-        self.taskLabel.isHidden = loading
-        self.taskHeaderLabel.isHidden = loading
-        self.jobLabel.isHidden = loading
-        self.jobHeaderLabel.isHidden = loading
-        self.customerLabel.isHidden = loading
-        self.customerHeaderLabel.isHidden = loading
-        self.sinceLabel.isHidden = loading
-        self.sinceHeaderLabel.isHidden = loading
-        self.sinceTimeZoneLabel.isHidden = loading
-        self.punchedInOrOutLabel.isHidden = loading
-        self.punchInButton.isHidden = loading
-        self.punchOutButton.isHidden = loading
-        self.logoutButton.isHidden = loading
+        nameLabel.isHidden = loading
+        taskLabel.isHidden = loading
+        taskHeaderLabel.isHidden = loading
+        jobLabel.isHidden = loading
+        jobHeaderLabel.isHidden = loading
+        customerLabel.isHidden = loading
+        customerHeaderLabel.isHidden = loading
+        sinceLabel.isHidden = loading
+        sinceHeaderLabel.isHidden = loading
+        sinceTimeZoneLabel.isHidden = loading
+        punchedInOrOutLabel.isHidden = loading
+        punchInButton.isHidden = loading
+        punchOutButton.isHidden = loading
+        logoutButton.isHidden = loading
     }
 }

@@ -1,9 +1,26 @@
 //
 //  PunchInConfirmViewController.swift
-//  BRIZBEE
+//  BRIZBEE Mobile for iOS
+//
+//  Copyright © 2019 East Coast Technology Services, LLC
+//
+//  This file is part of BRIZBEE Mobile for iOS.
+//
+//  BRIZBEE Mobile for iOS is free software: you can redistribute
+//  it and/or modify it under the terms of the GNU General Public
+//  License as published by the Free Software Foundation, either
+//  version 3 of the License, or (at your option) any later version.
+//
+//  BRIZBEE Mobile for iOS is distributed in the hope that it will
+//  be useful, but WITHOUT ANY WARRANTY; without even the implied
+//  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//  See the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with BRIZBEE Mobile for iOS.
+//  If not, see <https://www.gnu.org/licenses/>.
 //
 //  Created by Joshua Shane Martin on 8/20/19.
-//  Copyright © 2019 East Coast Technology Services, LLC. All rights reserved.
 //
 
 import UIKit
@@ -34,22 +51,25 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationItem.hidesBackButton = true // Hides back button
+        toggleEnabled(enabled: true)
         
-        // Task
+        // Hide the back button
+        navigationItem.hidesBackButton = true
+        
+        // Set the task
         let taskNumber = task?["Number"] as? String ?? ""
         let taskName = task?["Name"] as? String ?? ""
         let taskString = String(format: "%@ - %@", taskNumber, taskName)
         self.taskLabel.text = taskString
         
-        // Job
+        // Set the job
         let job = task?["Job"] as? [String: Any]
         let jobNumber = job?["Number"] as? String ?? ""
         let jobName = job?["Name"] as? String ?? ""
         let jobString = String(format: "%@ - %@", jobNumber, jobName)
         self.jobLabel.text = jobString
         
-        // Customer
+        // Set the customer
         let customer = job?["Customer"] as? [String: Any]
         let customerNumber = customer?["Number"] as? String ?? ""
         let customerName = customer?["Name"] as? String ?? ""
@@ -194,12 +214,17 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     func toggleEnabled(enabled: Bool) {
-        self.loadingIndicator.isHidden = enabled
+        if (enabled) {
+            loadingIndicator.stopAnimating()
+        } else {
+            loadingIndicator.startAnimating()
+        }
+        loadingIndicator.isHidden = enabled
         
-        self.continueButton.isEnabled = enabled
-        self.cancelButton.isEnabled = enabled
-        self.taskLabel.isEnabled = enabled
-        self.jobLabel.isHidden = enabled
-        self.customerLabel.isHidden = enabled
+        continueButton.isEnabled = enabled
+        cancelButton.isEnabled = enabled
+        taskLabel.isEnabled = enabled
+        jobLabel.isEnabled = enabled
+        customerLabel.isEnabled = enabled
     }
 }
