@@ -87,6 +87,11 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
             timeZoneTextField.text = timeZone
         }
         
+        // Set padding
+        let paddingView1: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.timeZoneTextField.frame.height))
+        timeZoneTextField.leftView = paddingView1
+        timeZoneTextField.leftViewMode = .always
+        
         let picker: UIPickerView
         picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
         picker.backgroundColor = .white

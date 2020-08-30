@@ -46,6 +46,11 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
         // Adjust scroll position depending on if the keyboard covers the active UIView
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        // Configure placeholder
+        taskNumberTextField.attributedPlaceholder = NSAttributedString(string: "00000",
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

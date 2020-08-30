@@ -43,6 +43,22 @@ class LoginViewController: UIViewController {
         // Adjust scroll position depending on if the keyboard covers the active UIView
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        // Configure placeholders and set focus
+        emailOrCodeTextField.attributedPlaceholder = NSAttributedString(string: "Your Organization Code",
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        passwordOrPinTextField.attributedPlaceholder = NSAttributedString(string: "Your PIN",
+                                                                          attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        emailOrCodeTextField.becomeFirstResponder()
+        
+        // Set padding
+        let paddingView1: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.emailOrCodeTextField.frame.height))
+        emailOrCodeTextField.leftView = paddingView1
+        emailOrCodeTextField.leftViewMode = .always
+        
+        let paddingView2: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.emailOrCodeTextField.frame.height))
+        passwordOrPinTextField.leftView = paddingView2
+        passwordOrPinTextField.leftViewMode = .always
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,13 +95,19 @@ class LoginViewController: UIViewController {
     @IBAction func indexChanged(_ sender: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            emailOrCodeTextField.placeholder = "Your Organization Code"
-            passwordOrPinTextField.placeholder = "Your PIN"
-            emailOrCodeTextField.becomeFirstResponder() // set focus
+            // Configure placeholder and set focus
+            emailOrCodeTextField.attributedPlaceholder = NSAttributedString(string: "Your Organization Code",
+                                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            passwordOrPinTextField.attributedPlaceholder = NSAttributedString(string: "Your PIN",
+                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            emailOrCodeTextField.becomeFirstResponder()
         case 1:
-            emailOrCodeTextField.placeholder = "Your Email Address"
-            passwordOrPinTextField.placeholder = "Your Password"
-            emailOrCodeTextField.becomeFirstResponder() // set focus
+            // Configure placeholder and set focus
+            emailOrCodeTextField.attributedPlaceholder = NSAttributedString(string: "Your Email Address",
+                                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            passwordOrPinTextField.attributedPlaceholder = NSAttributedString(string: "Your Password",
+                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            emailOrCodeTextField.becomeFirstResponder()
         default:
             break;
         }
@@ -167,7 +189,7 @@ class LoginViewController: UIViewController {
                     self.user = User(name: nameString, emailAddress: emailString, id: idString, timeZone: timeZoneString)
 
                     // Push status view controller
-                    if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status View Controller") as? StatusViewController {
+                    if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status Staging View Controller") as? StatusStagingViewController {
                         viewController.auth = self.auth
                         viewController.user = self.user
                         viewController.timeZones = self.timeZones

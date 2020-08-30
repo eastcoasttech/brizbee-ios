@@ -1,5 +1,5 @@
 //
-//  StatusViewController.swift
+//  StatusStagingViewController.swift
 //  BRIZBEE Mobile for iOS
 //
 //  Copyright © 2019 East Coast Technology Services, LLC
@@ -25,74 +25,29 @@
 
 import UIKit
 
-class StatusViewController: UIViewController {
+class StatusStagingViewController: UIViewController {
     var auth: Auth?
     var user: User?
     var timeZones: [String]?
     var timeZone: String?
+    var currentTask: String?
+    var currentJob: String?
+    var currentCustomer: String?
+    var currentSince: String?
+    var currentSinceTimeZone: String?
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var taskLabel: UILabel!
-    @IBOutlet weak var taskHeaderLabel: UILabel!
-    @IBOutlet weak var jobLabel: UILabel!
-    @IBOutlet weak var jobHeaderLabel: UILabel!
-    @IBOutlet weak var customerLabel: UILabel!
-    @IBOutlet weak var customerHeaderLabel: UILabel!
-    @IBOutlet weak var sinceLabel: UILabel!
-    @IBOutlet weak var sinceHeaderLabel: UILabel!
-    @IBOutlet weak var sinceTimeZoneLabel: UILabel!
-    @IBOutlet weak var punchedInOrOutLabel: UILabel!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var punchInButton: UIButton!
-    @IBOutlet weak var punchOutButton: UIButton!
-    @IBOutlet weak var logoutButton: UIButton!
-    
-    @IBAction func onPunchInButton(_ sender: Any) {
-        performSegue(withIdentifier: "punchInSegue", sender: self)
-    }
-    
-    @IBAction func onPunchOutButton(_ sender: Any) {
-        performSegue(withIdentifier: "punchOutSegue", sender: self)
-    }
-    
-    @IBAction func onLogoutButton(_ sender: Any) {
-        self.navigationController?.popToRootViewController(animated: true)
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Must stop by default because it will be displayed
-        loadingIndicator.stopAnimating()
-        
-        navigationItem.hidesBackButton = true // Hides back button
-        
-        // Update the labels
-        let nameString = String(format: "Hello, %@", (user?.name ?? ""))
-        nameLabel.text = nameString
+        // Prevent going back
+        navigationItem.hidesBackButton = true
         
         self.loadCurrentPunch()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "punchInSegue" {
-            let controller = segue.destination as! PunchInTaskIdViewController
-            controller.auth = self.auth
-            controller.timeZone = self.timeZone
-            controller.timeZones = self.timeZones
-            controller.user = self.user
-        } else if segue.identifier == "punchOutSegue" {
-            let controller = segue.destination as! PunchOutConfirmViewController
-            controller.auth = self.auth
-            controller.timeZone = self.timeZone
-            controller.timeZones = self.timeZones
-            controller.user = self.user
-        }
-    }
-    
     func loadCurrentPunch() {
-        self.toggleLoading(loading: true) // Hide everything
-        
         // Create the request
         let url = URL(string: "https://brizbee.gowitheast.com/odata/Punches/Default.Current?$expand=Task($expand=Job($expand=Customer))")!
         var request = URLRequest(url: url)
@@ -117,9 +72,8 @@ class StatusViewController: UIViewController {
                     if let valueJSON = responseJSON["value"] as? [Any] {
                         if valueJSON.count > 0 {
                             // User is punched in
+                            
                             let valueFirstJSON = valueJSON.first as? [String: Any]
-                            self.punchedInOrOutLabel.text = "You are PUNCHED IN"
-                            self.punchedInOrOutLabel.textColor = UIColor(red: 102/255, green: 180/255, blue: 49/255, alpha: 1.0)
                             
                             // Since
                             let inAt = valueFirstJSON?["InAt"] as? String ?? ""
@@ -132,11 +86,11 @@ class StatusViewController: UIViewController {
                             let humanFormatter = DateFormatter()
                             humanFormatter.dateFormat = "MMM dd, yyyy h:mm a"
                             let humanString = humanFormatter.string(from: date)
-                            self.sinceLabel.text = humanString
+                            self.currentSince = humanString
                             
                             // Since Time Zone
                             let inAtTimeZone = valueFirstJSON?["InAtTimeZone"] as? String ?? ""
-                            self.sinceTimeZoneLabel.text = inAtTimeZone
+                            self.currentSinceTimeZone = inAtTimeZone
                             
                             // Use this time zone to punch in or out later
                             self.timeZone = inAtTimeZone
@@ -146,45 +100,50 @@ class StatusViewController: UIViewController {
                             let taskNumber = task?["Number"] as? String ?? ""
                             let taskName = task?["Name"] as? String ?? ""
                             let taskString = String(format: "%@ - %@", taskNumber, taskName)
-                            self.taskLabel.text = taskString
+                            self.currentTask = taskString
                             
                             // Job
                             let job = task?["Job"] as? [String: Any]
                             let jobNumber = job?["Number"] as? String ?? ""
                             let jobName = job?["Name"] as? String ?? ""
                             let jobString = String(format: "%@ - %@", jobNumber, jobName)
-                            self.jobLabel.text = jobString
+                            self.currentJob = jobString
                             
                             // Customer
                             let customer = job?["Customer"] as? [String: Any]
                             let customerNumber = customer?["Number"] as? String ?? ""
                             let customerName = customer?["Name"] as? String ?? ""
                             let customerString = String(format: "%@ - %@", customerNumber, customerName)
-                            self.customerLabel.text = customerString
+                            self.currentCustomer = customerString
                             
-                            self.toggleLoading(loading: false) // Show everything
-                            
-                            self.punchOutButton.isEnabled = true
+                            // Go to in status view
+                            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status In View Controller") as? StatusInViewController {
+                                viewController.auth = self.auth
+                                viewController.user = self.user
+                                viewController.timeZone = self.timeZone
+                                viewController.timeZones = self.timeZones
+                                viewController.currentSince = self.currentSince
+                                viewController.currentSinceTimeZone = self.currentSinceTimeZone
+                                viewController.currentTask = self.currentTask
+                                viewController.currentJob = self.currentJob
+                                viewController.currentCustomer = self.currentCustomer
+                                if let navigator = self.navigationController {
+                                    navigator.pushViewController(viewController, animated: true)
+                                }
+                            }
                         } else {
                             // User is punched out
-                            self.punchedInOrOutLabel.text = "You are PUNCHED OUT"
-                            self.punchedInOrOutLabel.textColor = UIColor(red: 204/255, green: 0/255, blue: 0/255, alpha: 1.0)
                             
-                            // Use this time zone to punch in later
-                            self.timeZone = self.user?.timeZone
-                            
-                            self.toggleLoading(loading: false) // Show everything
-                            
-                            self.taskLabel.isHidden = true
-                            self.taskHeaderLabel.isHidden = true
-                            self.jobLabel.isHidden = true
-                            self.jobHeaderLabel.isHidden = true
-                            self.customerLabel.isHidden = true
-                            self.customerHeaderLabel.isHidden = true
-                            self.sinceLabel.isHidden = true
-                            self.sinceHeaderLabel.isHidden = true
-                            self.sinceTimeZoneLabel.isHidden = true
-                            self.punchOutButton.isEnabled = false
+                            // Go to out status view
+                            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status Out View Controller") as? StatusOutViewController {
+                                viewController.auth = self.auth
+                                viewController.user = self.user
+                                viewController.timeZone = self.timeZone
+                                viewController.timeZones = self.timeZones
+                                if let navigator = self.navigationController {
+                                    navigator.pushViewController(viewController, animated: true)
+                                }
+                            }
                         }
                     }
                 }
@@ -192,29 +151,5 @@ class StatusViewController: UIViewController {
         }
         
         task.resume()
-    }
-    
-    func toggleLoading(loading: Bool) {
-        if (loading) {
-            loadingIndicator.startAnimating()
-        } else {
-            loadingIndicator.stopAnimating()
-        }
-        loadingIndicator.isHidden = !loading
-        
-        nameLabel.isHidden = loading
-        taskLabel.isHidden = loading
-        taskHeaderLabel.isHidden = loading
-        jobLabel.isHidden = loading
-        jobHeaderLabel.isHidden = loading
-        customerLabel.isHidden = loading
-        customerHeaderLabel.isHidden = loading
-        sinceLabel.isHidden = loading
-        sinceHeaderLabel.isHidden = loading
-        sinceTimeZoneLabel.isHidden = loading
-        punchedInOrOutLabel.isHidden = loading
-        punchInButton.isHidden = loading
-        punchOutButton.isHidden = loading
-        logoutButton.isHidden = loading
     }
 }
