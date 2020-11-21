@@ -202,7 +202,7 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         return timeZones!.count
     }
 
-    // The data to return fopr the row and component (column) that's being passed in
+    // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return timeZones![row]
     }

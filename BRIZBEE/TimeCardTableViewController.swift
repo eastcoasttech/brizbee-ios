@@ -26,11 +26,26 @@
 import UIKit
 
 class TimeCardTableViewController: UITableViewController {
+    var auth: Auth?
+    var user: User?
+    var customers: [Customer] = []
+    var jobs: [Job] = []
+    var tasks: [Task] = []
+    var customer: Customer?
+    var job: Job?
+    var task: Task?
+    var customerPicker: UIPickerView?
+    var jobPicker: UIPickerView?
+    var taskPicker: UIPickerView?
+    
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var hourStepper: UIStepper!
     @IBOutlet weak var minuteStepper: UIStepper!
     @IBOutlet weak var hourLabel: UILabel!
     @IBOutlet weak var minuteLabel: UILabel!
+    @IBOutlet weak var customerLabel: InputViewLabel!
+    @IBOutlet weak var jobLabel: InputViewLabel!
+    @IBOutlet weak var taskLabel: InputViewLabel!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -62,13 +77,191 @@ class TimeCardTableViewController: UITableViewController {
         minuteLabel.text = formatter.string(from: minuteStepper.value as NSNumber) ?? "0"
     }
     
-//    @IBAction func datePickerChanged(_ sender: Any) {
-//        let dateFormatter = DateFormatter()
-//
-//        dateFormatter.dateStyle = DateFormatter.Style.short
-//        dateFormatter.timeStyle = DateFormatter.Style.short
-//
-//        let strDate = dateFormatter.string(from: datePicker.date)
-//        dateLabel.text = strDate
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        customerLabel.selectedItemChangedHandler = {
+            (item: Any) -> Void in
+        
+            self.customer = item as? Customer
+            self.reloadJobs()
+        }
+        
+        jobLabel.selectedItemChangedHandler = {
+            (item: Any) -> Void in
+            
+            self.job = item as? Job
+            self.reloadTasks()
+        }
+        
+        taskLabel.selectedItemChangedHandler = {
+            (item: Any) -> Void in
+            
+            // No need to do anything
+        }
+        
+        // Must trigger initial load
+        reloadCustomers()
+    }
+    
+    func reloadCustomers()
+    {
+        NSLog("Reloading customers")
+        
+        // Create the request
+        let url = URL(string: "https://brizbee.gowitheast.com/odata/Customers?$orderby=Number")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Set the headers
+        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
+        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
+        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        
+        // Send the request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+                let valueJSON = responseJSON["value"] as? [Any]
+                
+                // Reset the customers, jobs, and tasks
+                self.customers = []
+                self.customer = nil
+                self.jobs = []
+                self.job = nil
+                self.tasks = []
+                self.task = nil
+                
+                for item in valueJSON! {
+                    if let itemJSON = item as? [String: Any] {
+                        let name = itemJSON["Name"] as? String
+                        let id = itemJSON["Id"] as? Int64
+                        let number = itemJSON["Number"] as? String
+                        let customer = Customer(name: name!, id: id!, number: number!)
+                        self.customers.append(customer)
+                    }
+                }
+                
+                // Set the items
+                self.customerLabel.setItems(items: self.customers, selected: self.customer as Any?)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func reloadJobs()
+    {
+        NSLog("Reloading jobs for customer id %i", customer!.id)
+        
+        // Create the request
+        let parameters = [
+            "$filter": String(format: "CustomerId eq %i", customer!.id),
+            "$orderby": "Number"
+        ]
+        var urlComponents = URLComponents(string: "https://brizbee.gowitheast.com/odata/Jobs")!
+        urlComponents.queryItems = parameters.map({ (key, value) -> URLQueryItem in
+            URLQueryItem(name: key, value: String(value))
+        })
+        var request = URLRequest(url: urlComponents.url!)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Set the headers
+        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
+        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
+        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        
+        // Send the request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+                let valueJSON = responseJSON["value"] as? [Any]
+                
+                // Reset the jobs and tasks
+                self.jobs = []
+                self.job = nil
+                self.tasks = []
+                self.task = nil
+                
+                for item in valueJSON! {
+                    if let itemJSON = item as? [String: Any] {
+                        let name = itemJSON["Name"] as? String
+                        let id = itemJSON["Id"] as? Int64
+                        let number = itemJSON["Number"] as? String
+                        let job = Job(name: name!, id: id!, number: number!, customerId: self.customer!.id)
+                        self.jobs.append(job)
+                    }
+                }
+                
+                // Set the items
+                self.jobLabel.setItems(items: self.jobs, selected: self.job as Any?)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func reloadTasks()
+    {
+        NSLog("Reloading tasks for job id %", job!.id)
+        
+        // Create the request
+        let parameters = [
+            "$filter": String(format: "JobId eq %i", job!.id),
+            "$orderby": "Number"
+        ]
+        var urlComponents = URLComponents(string: "https://brizbee.gowitheast.com/odata/Tasks")!
+        urlComponents.queryItems = parameters.map({ (key, value) -> URLQueryItem in
+            URLQueryItem(name: key, value: String(value))
+        })
+        var request = URLRequest(url: urlComponents.url!)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Set the headers
+        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
+        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
+        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        
+        // Send the request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+                let valueJSON = responseJSON["value"] as? [Any]
+                
+                // Reset the tasks
+                self.tasks = []
+                self.task = nil
+                
+                for item in valueJSON! {
+                    if let itemJSON = item as? [String: Any] {
+                        let name = itemJSON["Name"] as? String
+                        let id = itemJSON["Id"] as? Int64
+                        let number = itemJSON["Number"] as? String
+                        let task = Task(name: name!, id: id!, number: number!, jobId: self.job!.id)
+                        self.tasks.append(task)
+                    }
+                }
+                
+                // Set the items
+                self.taskLabel.setItems(items: self.tasks, selected: self.task as Any?)
+            }
+        }
+        
+        task.resume()
+    }
 }

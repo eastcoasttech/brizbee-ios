@@ -60,6 +60,10 @@ class StatusOutViewController: UIViewController {
             controller.timeZone = self.timeZone
             controller.timeZones = self.timeZones
             controller.user = self.user
+        } else if segue.identifier == "timeCardSegue" {
+            let controller = segue.destination as! TimeCardTableViewController
+            controller.auth = self.auth
+            controller.user = self.user
         }
     }
 }

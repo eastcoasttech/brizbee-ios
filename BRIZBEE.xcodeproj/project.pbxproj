@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C0BE8492563897200D28377 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BE8482563897200D28377 /* Customer.swift */; };
+		1C0BE84B2563897B00D28377 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BE84A2563897B00D28377 /* Job.swift */; };
+		1C0BE84D2563898100D28377 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BE84C2563898100D28377 /* Task.swift */; };
 		1C2434C8230CF69D00231CC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C7230CF69D00231CC2 /* AppDelegate.swift */; };
 		1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C9230CF69D00231CC2 /* LoginViewController.swift */; };
 		1C2434CD230CF69D00231CC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434CB230CF69D00231CC2 /* Main.storyboard */; };
@@ -21,6 +24,7 @@
 		1C62686E24FB04070027853C /* TimeCardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C62686D24FB04070027853C /* TimeCardTableViewController.swift */; };
 		1C73A2102352430900A361B5 /* TaskNumberDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */; };
 		1C7A1367234BB09E006A2790 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A1366234BB09E006A2790 /* Auth.swift */; };
+		1CC284A82565FE49000E062B /* InputViewLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC284A72565FE49000E062B /* InputViewLabel.swift */; };
 		1CD2B9392325DE2100B2B0D8 /* PunchInTaskIdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B9382325DE2100B2B0D8 /* PunchInTaskIdViewController.swift */; };
 		1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */; };
 		1CD2B93D2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */; };
@@ -45,6 +49,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C0BE8482563897200D28377 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		1C0BE84A2563897B00D28377 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
+		1C0BE84C2563898100D28377 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		1C2434C4230CF69D00231CC2 /* BRIZBEE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BRIZBEE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C2434C7230CF69D00231CC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C2434C9230CF69D00231CC2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +72,7 @@
 		1C62686D24FB04070027853C /* TimeCardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCardTableViewController.swift; sourceTree = "<group>"; };
 		1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNumberDelegate.swift; sourceTree = "<group>"; };
 		1C7A1366234BB09E006A2790 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		1CC284A72565FE49000E062B /* InputViewLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewLabel.swift; sourceTree = "<group>"; };
 		1CD2B9382325DE2100B2B0D8 /* PunchInTaskIdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInTaskIdViewController.swift; sourceTree = "<group>"; };
 		1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInConfirmViewController.swift; sourceTree = "<group>"; };
 		1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchOutConfirmViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +144,10 @@
 				1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */,
 				1C62686D24FB04070027853C /* TimeCardTableViewController.swift */,
 				1CD2FBDC234AEE1D00B5CAF0 /* User.swift */,
+				1C0BE8482563897200D28377 /* Customer.swift */,
+				1C0BE84A2563897B00D28377 /* Job.swift */,
+				1C0BE84C2563898100D28377 /* Task.swift */,
+				1CC284A72565FE49000E062B /* InputViewLabel.swift */,
 			);
 			path = BRIZBEE;
 			sourceTree = "<group>";
@@ -221,7 +233,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "East Coast Technology Services, LLC";
 				TargetAttributes = {
 					1C2434C3230CF69D00231CC2 = {
@@ -290,11 +302,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C62686E24FB04070027853C /* TimeCardTableViewController.swift in Sources */,
+				1C0BE8492563897200D28377 /* Customer.swift in Sources */,
 				1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */,
 				1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */,
+				1C0BE84B2563897B00D28377 /* Job.swift in Sources */,
 				1CD2B9392325DE2100B2B0D8 /* PunchInTaskIdViewController.swift in Sources */,
 				1CD2B93D2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift in Sources */,
 				1C5E22A024F5E45000E58D76 /* StatusStagingViewController.swift in Sources */,
+				1C0BE84D2563898100D28377 /* Task.swift in Sources */,
 				1C595F2F2351676E00AD529C /* ScanBarCodeViewController.swift in Sources */,
 				1C29A66B24F5A746002B64AC /* StatusInViewController.swift in Sources */,
 				1C73A2102352430900A361B5 /* TaskNumberDelegate.swift in Sources */,
@@ -302,6 +317,7 @@
 				1CD2FBDD234AEE1D00B5CAF0 /* User.swift in Sources */,
 				1C7A1367234BB09E006A2790 /* Auth.swift in Sources */,
 				1C29A66D24F5A754002B64AC /* StatusOutViewController.swift in Sources */,
+				1CC284A82565FE49000E062B /* InputViewLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +398,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -443,6 +460,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
