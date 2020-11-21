@@ -56,7 +56,14 @@ class TimeCardTableViewController: UITableViewController {
     }
     
     @IBAction func onContinueButton(_ sender: Any) {
-//        self.toggleEnabled(enabled: false)
+        if ((Int(truncating: hour) + Int(truncating: minute)) == 0) {
+            let uialert = UIAlertController(title: "Oops!", message: "Must specify hours and minutes.", preferredStyle: UIAlertController.Style.alert)
+            uialert.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default, handler: nil))
+            self.present(uialert, animated: true, completion: nil)
+            return
+        }
+        
+        self.toggleEnabled(enabled: false)
         
         // Prepare json data
         let dateFormatter = DateFormatter()
@@ -86,7 +93,7 @@ class TimeCardTableViewController: UITableViewController {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
-//                self.toggleEnabled(enabled: true)
+                self.toggleEnabled(enabled: true)
                 return
             }
             
@@ -324,5 +331,22 @@ class TimeCardTableViewController: UITableViewController {
         }
         
         task.resume()
+    }
+    
+    func toggleEnabled(enabled: Bool) {
+//        if (enabled) {
+//            loadingIndicator.stopAnimating()
+//        } else {
+//            loadingIndicator.startAnimating()
+//        }
+//        loadingIndicator.isHidden = enabled
+        
+        datePicker.isEnabled = enabled
+        hourLabel.isEnabled = enabled
+        minuteLabel.isEnabled = enabled
+        customerLabel.isEnabled = enabled
+        jobLabel.isEnabled = enabled
+        taskLabel.isEnabled = enabled
+        notesTextView.isEditable = enabled
     }
 }
