@@ -37,6 +37,8 @@ class TimeCardTableViewController: UITableViewController {
     var customerPicker: UIPickerView?
     var jobPicker: UIPickerView?
     var taskPicker: UIPickerView?
+    var hours: NSNumber = 0
+    var minutes: NSNumber = 0
     
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var hourStepper: UIStepper!
@@ -46,6 +48,7 @@ class TimeCardTableViewController: UITableViewController {
     @IBOutlet weak var customerLabel: InputViewLabel!
     @IBOutlet weak var jobLabel: InputViewLabel!
     @IBOutlet weak var taskLabel: InputViewLabel!
+    @IBOutlet weak var notesTextView: UITextView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -54,18 +57,12 @@ class TimeCardTableViewController: UITableViewController {
         navigationItem.hidesBackButton = true
     }
     
-    @IBAction func onCancelButton(_ sender: Any) {
-        if let navigator = self.navigationController {
-            // Return to Status View Controller
-            navigator.popToViewController(navigator.viewControllers[1], animated: true)
-        }
-    }
-    
     @IBAction func onHourChanged(_ sender: Any) {
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 0
         
+        hours = hourStepper.value as NSNumber
         hourLabel.text = formatter.string(from: hourStepper.value as NSNumber) ?? "0"
     }
     
@@ -74,7 +71,65 @@ class TimeCardTableViewController: UITableViewController {
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 0
         
+        minutes = minuteStepper.value as NSNumber
         minuteLabel.text = formatter.string(from: minuteStepper.value as NSNumber) ?? "0"
+    }
+    
+    @IBAction func onContinueButton(_ sender: Any) {
+//        self.toggleEnabled(enabled: false)
+        
+        // Prepare json data
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let json: [String: Any] = ["UserId" : self.auth!.userId,
+                                   "TaskId" : self.task!.id,
+                                   "Notes": notesTextView.text!,
+                                   "Minutes": (Int(truncating: hours) * 60) + Int(truncating: minutes),
+                                   "EnteredAt": dateFormatter.string(from: datePicker.date)]
+        print(json)
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        // Create the request
+        let url = URL(string: "https://brizbee.gowitheast.com/odata/TimesheetEntries")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Add json data to the body
+        request.httpBody = jsonData
+        
+        // Set the headers
+        request.addValue(self.auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
+        request.addValue(self.auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
+        request.addValue(self.auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        
+        // Send the request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+//                self.toggleEnabled(enabled: true)
+                return
+            }
+            
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if (responseJSON as? [String: Any]) != nil {
+                DispatchQueue.main.async {
+                    // Return to Status View Controller
+                    if let navigator = self.navigationController {
+                        navigator.popToViewController(navigator.viewControllers[1], animated: true)
+                    }
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    // Return to Status View Controller
+    @IBAction func onCancelButton(_ sender: Any) {
+        if let navigator = self.navigationController {
+            navigator.popViewController(animated: true)
+        }
     }
     
     override func viewDidLoad() {
@@ -97,6 +152,7 @@ class TimeCardTableViewController: UITableViewController {
         taskLabel.selectedItemChangedHandler = {
             (item: Any) -> Void in
             
+            self.task = item as? Task
             // No need to do anything
         }
         

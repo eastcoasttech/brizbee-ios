@@ -807,6 +807,9 @@
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" title="CONTINUE"/>
+                                                    <connections>
+                                                        <action selector="onContinueButton:" destination="x1m-cf-Kdr" eventType="touchUpInside" id="KVe-u1-fHn"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -834,7 +837,7 @@
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" title="CANCEL"/>
                                                     <connections>
-                                                        <action selector="onCancelButton:" destination="x1m-cf-Kdr" eventType="touchUpInside" id="WWg-Pj-y36"/>
+                                                        <action selector="onCancelButton:" destination="x1m-cf-Kdr" eventType="touchUpInside" id="jRd-YG-lj1"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -863,6 +866,7 @@
                         <outlet property="jobLabel" destination="Okc-vs-pop" id="z0X-Jo-duh"/>
                         <outlet property="minuteLabel" destination="5uK-v4-zjY" id="HhS-fp-bg3"/>
                         <outlet property="minuteStepper" destination="h3a-X4-amM" id="lu9-aL-eeY"/>
+                        <outlet property="notesTextView" destination="hcN-F7-F9F" id="Ur3-Hf-UK2"/>
                         <outlet property="taskLabel" destination="Wfl-FT-DXB" id="gCj-QI-3cp"/>
                     </connections>
                 </tableViewController>
@@ -1145,7 +1149,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are PUNCHED OUT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G1z-wf-AFt">
                                                 <rect key="frame" x="90" y="65" width="234.5" height="27"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                <color key="textColor" red="0.80000000000000004" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRx-Yn-Ye2">
