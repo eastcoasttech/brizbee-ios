@@ -1,9 +1,26 @@
 //
 //  InputViewLabel.swift
-//  BRIZBEE
+//  BRIZBEE Mobile for iOS
+//
+//  Copyright © 2020 East Coast Technology Services, LLC
+//
+//  This file is part of BRIZBEE Mobile for iOS.
+//
+//  BRIZBEE Mobile for iOS is free software: you can redistribute
+//  it and/or modify it under the terms of the GNU General Public
+//  License as published by the Free Software Foundation, either
+//  version 3 of the License, or (at your option) any later version.
+//
+//  BRIZBEE Mobile for iOS is distributed in the hope that it will
+//  be useful, but WITHOUT ANY WARRANTY; without even the implied
+//  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//  See the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with BRIZBEE Mobile for iOS.
+//  If not, see <https://www.gnu.org/licenses/>.
 //
 //  Created by Joshua Shane Martin on 11/18/20.
-//  Copyright © 2020 East Coast Technology Services, LLC. All rights reserved.
 //
 
 import UIKit
@@ -92,14 +109,13 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
     private func selectedItemChanged() {
         if self.selected is Customer {
             text = (self.selected as? Customer)?.nameWithNumber
-        }
-        else if self.selected is Job {
+        } else if self.selected is Job {
             text = (self.selected as? Job)?.nameWithNumber
-        }
-        else if self.selected is Task {
+        } else if self.selected is Task {
             text = (self.selected as? Task)?.nameWithNumber
-        }
-        else {
+        } else if self.selected is NSNumber {
+            text = (self.selected as! NSNumber).stringValue
+        } else {
             text = ""
         }
         
@@ -108,10 +124,8 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     private func rowForObject(object: Any) -> Int {
-        // Determine the type of the object
+        // Determine the type of the object and find its index
         if object is Customer {
-            NSLog("Object is a customer")
-            // Find the index of the object
             if let index = self.items.firstIndex(where: { ($0 as! Customer).id == (object as! Customer).id }) {
                 return index
             } else {
@@ -119,25 +133,31 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
             }
         }
         else if object is Job {
-            NSLog("Object is a job")
             if let index = self.items.firstIndex(where: { ($0 as! Job).id == (object as! Job).id }) {
                 return index
             } else {
                 return 0
             }
-        }
-        else if object is Task {
-            NSLog("Object is a task")
+        } else if object is Task {
             if let index = self.items.firstIndex(where: { ($0 as! Task).id == (object as! Task).id }) {
                 return index
             } else {
                 return 0
             }
+        } else if object is NSNumber {
+            if let index = self.items.firstIndex(where: { $0 as! NSNumber == object as! NSNumber }) {
+                return index
+            } else {
+                return 0
+            }
         } else {
-            NSLog("Object is none of these types")
             return 0
         }
     }
+    
+    // -----------------------------------------------------------
+    // Picker Delegate
+    // -----------------------------------------------------------
     
     var selected: Any?
     var items: [Any] = []
@@ -157,14 +177,13 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if items[row] is Customer {
             return (items[row] as? Customer)?.nameWithNumber
-        }
-        else if items[row] is Job {
+        } else if items[row] is Job {
             return (items[row] as? Job)?.nameWithNumber
-        }
-        else if items[row] is Task {
+        } else if items[row] is Task {
             return (items[row] as? Task)?.nameWithNumber
-        }
-        else {
+        } else if items[row] is NSNumber {
+            return (items[row] as! NSNumber).stringValue
+        } else {
             return ""
         }
     }

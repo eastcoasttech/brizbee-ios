@@ -37,17 +37,15 @@ class TimeCardTableViewController: UITableViewController {
     var customerPicker: UIPickerView?
     var jobPicker: UIPickerView?
     var taskPicker: UIPickerView?
-    var hours: NSNumber = 0
-    var minutes: NSNumber = 0
+    var hour: NSNumber = 0
+    var minute: NSNumber = 0
     
     @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var hourStepper: UIStepper!
-    @IBOutlet weak var minuteStepper: UIStepper!
-    @IBOutlet weak var hourLabel: UILabel!
-    @IBOutlet weak var minuteLabel: UILabel!
     @IBOutlet weak var customerLabel: InputViewLabel!
     @IBOutlet weak var jobLabel: InputViewLabel!
     @IBOutlet weak var taskLabel: InputViewLabel!
+    @IBOutlet weak var hourLabel: InputViewLabel!
+    @IBOutlet weak var minuteLabel: InputViewLabel!
     @IBOutlet weak var notesTextView: UITextView!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,23 +55,23 @@ class TimeCardTableViewController: UITableViewController {
         navigationItem.hidesBackButton = true
     }
     
-    @IBAction func onHourChanged(_ sender: Any) {
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 0
-        
-        hours = hourStepper.value as NSNumber
-        hourLabel.text = formatter.string(from: hourStepper.value as NSNumber) ?? "0"
-    }
+//    @IBAction func onHourChanged(_ sender: Any) {
+//        let formatter = NumberFormatter()
+//        formatter.minimumFractionDigits = 0
+//        formatter.maximumFractionDigits = 0
+//
+//        hours = hourStepper.value as NSNumber
+//        hourLabel.text = formatter.string(from: hourStepper.value as NSNumber) ?? "0"
+//    }
     
-    @IBAction func onMinuteChanged(_ sender: Any) {
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 0
-        
-        minutes = minuteStepper.value as NSNumber
-        minuteLabel.text = formatter.string(from: minuteStepper.value as NSNumber) ?? "0"
-    }
+//    @IBAction func onMinuteChanged(_ sender: Any) {
+//        let formatter = NumberFormatter()
+//        formatter.minimumFractionDigits = 0
+//        formatter.maximumFractionDigits = 0
+//
+//        minutes = minuteStepper.value as NSNumber
+//        minuteLabel.text = formatter.string(from: minuteStepper.value as NSNumber) ?? "0"
+//    }
     
     @IBAction func onContinueButton(_ sender: Any) {
 //        self.toggleEnabled(enabled: false)
@@ -84,9 +82,8 @@ class TimeCardTableViewController: UITableViewController {
         let json: [String: Any] = ["UserId" : self.auth!.userId,
                                    "TaskId" : self.task!.id,
                                    "Notes": notesTextView.text!,
-                                   "Minutes": (Int(truncating: hours) * 60) + Int(truncating: minutes),
+                                   "Minutes": (Int(truncating: hour) * 60) + Int(truncating: minute),
                                    "EnteredAt": dateFormatter.string(from: datePicker.date)]
-        print(json)
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         // Create the request
@@ -135,6 +132,38 @@ class TimeCardTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Configure hour and minute picker
+        
+        hourLabel.selectedItemChangedHandler = {
+            (item: Any) -> Void in
+            
+            self.hour = item as! NSNumber
+            // No need to do anything
+        }
+        
+        minuteLabel.selectedItemChangedHandler = {
+            (item: Any) -> Void in
+            
+            self.minute = item as! NSNumber
+            // No need to do anything
+        }
+        
+        // Maximum 23 hours in a day
+        var h: [NSNumber] = []
+        for n in 0...23 {
+            h.append(NSNumber(value: n))
+        }
+        hourLabel.setItems(items: h, selected: self.hour)
+        
+        // Maximum 59 minutes in an hour
+        var m: [NSNumber] = []
+        for n in 0...59 {
+            m.append(NSNumber(value: n))
+        }
+        minuteLabel.setItems(items: m, selected: self.minute)
+        
+        // Configure customer, job, and task picker
+        
         customerLabel.selectedItemChangedHandler = {
             (item: Any) -> Void in
         
@@ -162,8 +191,6 @@ class TimeCardTableViewController: UITableViewController {
     
     func reloadCustomers()
     {
-        NSLog("Reloading customers")
-        
         // Create the request
         let url = URL(string: "https://brizbee.gowitheast.com/odata/Customers?$orderby=Number")!
         var request = URLRequest(url: url)
@@ -213,8 +240,6 @@ class TimeCardTableViewController: UITableViewController {
     
     func reloadJobs()
     {
-        NSLog("Reloading jobs for customer id %i", customer!.id)
-        
         // Create the request
         let parameters = [
             "$filter": String(format: "CustomerId eq %i", customer!.id),
@@ -269,8 +294,6 @@ class TimeCardTableViewController: UITableViewController {
     
     func reloadTasks()
     {
-        NSLog("Reloading tasks for job id %", job!.id)
-        
         // Create the request
         let parameters = [
             "$filter": String(format: "JobId eq %i", job!.id),

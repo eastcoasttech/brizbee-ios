@@ -22,6 +22,7 @@
 		1C595F2F2351676E00AD529C /* ScanBarCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C595F2E2351676E00AD529C /* ScanBarCodeViewController.swift */; };
 		1C5E22A024F5E45000E58D76 /* StatusStagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5E229F24F5E45000E58D76 /* StatusStagingViewController.swift */; };
 		1C62686E24FB04070027853C /* TimeCardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C62686D24FB04070027853C /* TimeCardTableViewController.swift */; };
+		1C6BE32C25698A10005F661E /* InputViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6BE32B25698A10005F661E /* InputViewTableViewCell.swift */; };
 		1C73A2102352430900A361B5 /* TaskNumberDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */; };
 		1C7A1367234BB09E006A2790 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A1366234BB09E006A2790 /* Auth.swift */; };
 		1CC284A82565FE49000E062B /* InputViewLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC284A72565FE49000E062B /* InputViewLabel.swift */; };
@@ -70,6 +71,7 @@
 		1C595F2E2351676E00AD529C /* ScanBarCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanBarCodeViewController.swift; sourceTree = "<group>"; };
 		1C5E229F24F5E45000E58D76 /* StatusStagingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusStagingViewController.swift; sourceTree = "<group>"; };
 		1C62686D24FB04070027853C /* TimeCardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCardTableViewController.swift; sourceTree = "<group>"; };
+		1C6BE32B25698A10005F661E /* InputViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewTableViewCell.swift; sourceTree = "<group>"; };
 		1C73A20F2352430900A361B5 /* TaskNumberDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNumberDelegate.swift; sourceTree = "<group>"; };
 		1C7A1366234BB09E006A2790 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		1CC284A72565FE49000E062B /* InputViewLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewLabel.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				1C0BE84A2563897B00D28377 /* Job.swift */,
 				1C0BE84C2563898100D28377 /* Task.swift */,
 				1CC284A72565FE49000E062B /* InputViewLabel.swift */,
+				1C6BE32B25698A10005F661E /* InputViewTableViewCell.swift */,
 			);
 			path = BRIZBEE;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				1C62686E24FB04070027853C /* TimeCardTableViewController.swift in Sources */,
 				1C0BE8492563897200D28377 /* Customer.swift in Sources */,
 				1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */,
+				1C6BE32C25698A10005F661E /* InputViewTableViewCell.swift in Sources */,
 				1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */,
 				1C0BE84B2563897B00D28377 /* Job.swift in Sources */,
 				1CD2B9392325DE2100B2B0D8 /* PunchInTaskIdViewController.swift in Sources */,
