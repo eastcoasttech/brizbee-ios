@@ -71,10 +71,10 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
 
         _inputAccessoryToolbar.setItems([cancelButton, spaceButton, doneButton], animated: false)
 
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(launchPicker))
-        tapRecognizer.numberOfTapsRequired = 1
-        self.isUserInteractionEnabled = true
-        self.addGestureRecognizer(tapRecognizer)
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(launchPicker))
+//        tapRecognizer.numberOfTapsRequired = 1
+//        self.isUserInteractionEnabled = true
+//        self.addGestureRecognizer(tapRecognizer)
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -83,9 +83,9 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var selectedItemChangedHandler: (Any) -> Void = { _ in }
 
-    @objc private func launchPicker() {
-        becomeFirstResponder()
-    }
+//    @objc private func launchPicker() {
+//        becomeFirstResponder()
+//    }
 
     @objc private func doneClick() {
         resignFirstResponder()

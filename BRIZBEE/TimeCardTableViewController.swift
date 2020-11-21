@@ -55,24 +55,6 @@ class TimeCardTableViewController: UITableViewController {
         navigationItem.hidesBackButton = true
     }
     
-//    @IBAction func onHourChanged(_ sender: Any) {
-//        let formatter = NumberFormatter()
-//        formatter.minimumFractionDigits = 0
-//        formatter.maximumFractionDigits = 0
-//
-//        hours = hourStepper.value as NSNumber
-//        hourLabel.text = formatter.string(from: hourStepper.value as NSNumber) ?? "0"
-//    }
-    
-//    @IBAction func onMinuteChanged(_ sender: Any) {
-//        let formatter = NumberFormatter()
-//        formatter.minimumFractionDigits = 0
-//        formatter.maximumFractionDigits = 0
-//
-//        minutes = minuteStepper.value as NSNumber
-//        minuteLabel.text = formatter.string(from: minuteStepper.value as NSNumber) ?? "0"
-//    }
-    
     @IBAction func onContinueButton(_ sender: Any) {
 //        self.toggleEnabled(enabled: false)
         
