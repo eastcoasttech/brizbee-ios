@@ -107,8 +107,12 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         self.toggleEnabled(enabled: false)
         
         // Prepare json data
-        let json: [String: Any] = ["SourceForOutAt": "Mobile",
+        let json: [String: Any] = ["SourceHardware": "Mobile",
                                    "OutAtTimeZone": timeZoneTextField.text!,
+                                   "SourceOperatingSystem": "iOS",
+                                   "SourceOperatingSystemVersion": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String,
+                                   "SourceBrowser": "N/A",
+                                   "SourceBrowserVersion": "N/A",
                                    "LatitudeForOutAt": latitude,
                                    "LongitudeForOutAt": longitude]
         

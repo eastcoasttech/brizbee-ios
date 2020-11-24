@@ -55,7 +55,6 @@
                                                     <segment title="Code and PIN"/>
                                                     <segment title="Email Address"/>
                                                 </segments>
-                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <action selector="indexChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="u0y-nr-ZAe"/>
                                                 </connections>

@@ -138,8 +138,12 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         
         // Prepare json data
         let json: [String: Any] = ["TaskId" : self.task!["Id"]!,
-                                   "SourceForInAt": "Mobile",
+                                   "SourceHardware": "Mobile",
                                    "InAtTimeZone": timeZoneTextField.text!,
+                                   "SourceOperatingSystem": "iOS",
+                                   "SourceOperatingSystemVersion": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String,
+                                   "SourceBrowser": "N/A",
+                                   "SourceBrowserVersion": "N/A",
                                    "LatitudeForInAt": latitude,
                                    "LongitudeForInAt": longitude]
         
