@@ -94,7 +94,12 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         
         let picker: UIPickerView
         picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
-        picker.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            picker.backgroundColor = .secondarySystemBackground
+        } else {
+            // Dark mode is not applicable
+            picker.backgroundColor = .white
+        }
 
         picker.showsSelectionIndicator = true
         picker.delegate = self
@@ -102,8 +107,13 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
 
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
+        if #available(iOS 13.0, *) {
+            toolBar.tintColor = .label
+        } else {
+            // Dark mode is not applicable
+            toolBar.tintColor = .black
+        }
         toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
         toolBar.sizeToFit()
 
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(self.donePicker))

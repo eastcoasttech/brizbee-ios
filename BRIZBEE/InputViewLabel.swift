@@ -29,7 +29,12 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
     private var _inputView: UIView? {
         get {
             let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: (self.superview?.frame.width)!, height: 300))
-            picker.backgroundColor = .white
+            if #available(iOS 13.0, *) {
+                picker.backgroundColor = .secondarySystemBackground
+            } else {
+                // Dark mode is not applicable
+                picker.backgroundColor = .white
+            }
             picker.showsSelectionIndicator = true
             picker.isUserInteractionEnabled = true
             picker.delegate = self
@@ -45,7 +50,12 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
     private var _inputAccessoryToolbar: UIToolbar = {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
-        toolBar.tintColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+        if #available(iOS 13.0, *) {
+            toolBar.tintColor = .label
+        } else {
+            // Dark mode is not applicable
+            toolBar.tintColor = .black
+        }
         toolBar.isTranslucent = true
         toolBar.isUserInteractionEnabled = true
 

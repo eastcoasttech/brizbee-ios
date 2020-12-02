@@ -114,12 +114,18 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginAction(_ sender: UIButton) {
+        
+        // Do not continue without any credentials
+        if (!emailOrCodeTextField.hasText || !passwordOrPinTextField.hasText) {
+            return;
+        }
+        
         self.toggleEnabled(enabled: false)
         
         // Prepare json data
-        let json: [String: Any] = ["Session": ["Method":"pin",
-                                               "PinOrganizationCode":emailOrCodeTextField.text!,
-                                               "PinUserPin":passwordOrPinTextField.text!]]
+        let json: [String: Any] = ["Session": ["Method": "pin",
+                                               "PinOrganizationCode": emailOrCodeTextField.text!,
+                                               "PinUserPin": passwordOrPinTextField.text!]]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         

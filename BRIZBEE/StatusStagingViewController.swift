@@ -84,8 +84,11 @@ class StatusStagingViewController: UIViewController {
                             let date = dateFormatter.date(from:inAt)!
                             
                             let humanFormatter = DateFormatter()
+                            humanFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
                             humanFormatter.dateFormat = "MMM dd, yyyy h:mm a"
+                            humanFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
                             let humanString = humanFormatter.string(from: date)
+                            
                             self.currentSince = humanString
                             
                             // Since Time Zone
