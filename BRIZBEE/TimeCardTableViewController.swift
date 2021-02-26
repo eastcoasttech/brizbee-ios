@@ -76,7 +76,7 @@ class TimeCardTableViewController: UITableViewController {
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         // Create the request
-        let url = URL(string: "https://brizbee.gowitheast.com/odata/TimesheetEntries")!
+        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/TimesheetEntries")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -181,7 +181,7 @@ class TimeCardTableViewController: UITableViewController {
     func reloadCustomers()
     {
         // Create the request
-        let url = URL(string: "https://brizbee.gowitheast.com/odata/Customers?$orderby=Number")!
+        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Customers?$orderby=Number")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -234,7 +234,7 @@ class TimeCardTableViewController: UITableViewController {
             "$filter": String(format: "CustomerId eq %i", customer!.id),
             "$orderby": "Number"
         ]
-        var urlComponents = URLComponents(string: "https://brizbee.gowitheast.com/odata/Jobs")!
+        var urlComponents = URLComponents(string: "https://app-brizbee-prod.azurewebsites.net/odata/Jobs")!
         urlComponents.queryItems = parameters.map({ (key, value) -> URLQueryItem in
             URLQueryItem(name: key, value: String(value))
         })
@@ -288,7 +288,7 @@ class TimeCardTableViewController: UITableViewController {
             "$filter": String(format: "JobId eq %i", job!.id),
             "$orderby": "Number"
         ]
-        var urlComponents = URLComponents(string: "https://brizbee.gowitheast.com/odata/Tasks")!
+        var urlComponents = URLComponents(string: "https://app-brizbee-prod.azurewebsites.net/odata/Tasks")!
         urlComponents.queryItems = parameters.map({ (key, value) -> URLQueryItem in
             URLQueryItem(name: key, value: String(value))
         })

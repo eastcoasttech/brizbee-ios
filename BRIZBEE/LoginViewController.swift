@@ -130,7 +130,7 @@ class LoginViewController: UIViewController {
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         // Create the request
-        let url = URL(string: "https://brizbee.gowitheast.com/odata/Users/Default.Authenticate")!
+        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Users/Default.Authenticate")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -168,7 +168,7 @@ class LoginViewController: UIViewController {
     
     func loadUser() {
         // Create the request
-        let url = URL(string: String(format: "https://brizbee.gowitheast.com/odata/Users(%@)", self.auth?.userId ?? ""))!
+        let url = URL(string: String(format: "https://app-brizbee-prod.azurewebsites.net/odata/Users(%@)", self.auth?.userId ?? ""))!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -216,7 +216,7 @@ class LoginViewController: UIViewController {
     
     func loadTimeZones() {
         // Create the request
-        let url = URL(string: "https://brizbee.gowitheast.com/odata/Organizations/Default.Timezones")!
+        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Organizations/Default.Timezones")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

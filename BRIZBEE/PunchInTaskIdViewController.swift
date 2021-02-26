@@ -129,7 +129,7 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             }
 
             // Create the request
-            let originalString = String(format: "https://brizbee.gowitheast.com/odata/Tasks?$expand=Job($expand=Customer)&$filter=Number eq '%@'", taskNumber)
+            let originalString = String(format: "https://app-brizbee-prod.azurewebsites.net/odata/Tasks?$expand=Job($expand=Customer)&$filter=Number eq '%@'", taskNumber)
             let escapedString = originalString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             let url = URL(string: escapedString!)!
             var request = URLRequest(url: url)

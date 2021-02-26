@@ -160,7 +160,7 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         // Create the request
-        let url = URL(string: "https://brizbee.gowitheast.com/odata/Punches/Default.PunchIn")!
+        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Punches/Default.PunchIn")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -49,7 +49,7 @@ class StatusStagingViewController: UIViewController {
     
     func loadCurrentPunch() {
         // Create the request
-        let url = URL(string: "https://brizbee.gowitheast.com/odata/Punches/Default.Current?$expand=Task($expand=Job($expand=Customer))")!
+        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Punches/Default.Current?$expand=Task($expand=Job($expand=Customer))")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
