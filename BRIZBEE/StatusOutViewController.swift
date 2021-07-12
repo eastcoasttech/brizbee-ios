@@ -34,12 +34,29 @@ class StatusOutViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var punchInButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
+    @IBOutlet weak var timeCardButton: UIButton!
     
-    @IBAction func onPunchInButton(_ sender: Any) {
+    @IBAction func onPunchInButton(_ sender: UIButton) {
+        // Reduce the button opacity.
+        sender.alpha = 0.5
+
+        // Return button opacity after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0
+        }
+        
         performSegue(withIdentifier: "punchInSegue", sender: self)
     }
     
-    @IBAction func onLogoutButton(_ sender: Any) {
+    @IBAction func onLogoutButton(_ sender: UIButton) {
+        // Reduce the button opacity.
+        sender.alpha = 0.5
+
+        // Return button opacity after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0
+        }
+        
         self.navigationController?.popToRootViewController(animated: true)
     }
     
@@ -48,9 +65,14 @@ class StatusOutViewController: UIViewController {
         
         navigationItem.hidesBackButton = true // Hides back button
         
-        // Update the labels
+        // Update the labels.
         let nameString = String(format: "Hello, %@", (user?.name ?? ""))
         nameLabel.text = nameString
+        
+        // Check if user is allowed to use time cards.
+        if (user?.usesTimeCards == false) {
+            self.timeCardButton.removeFromSuperview()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,6 +84,10 @@ class StatusOutViewController: UIViewController {
             controller.user = self.user
         } else if segue.identifier == "timeCardSegue" {
             let controller = segue.destination as! TimeCardTableViewController
+            controller.auth = self.auth
+            controller.user = self.user
+        } else if segue.identifier == "inventoryItemSegue" {
+            let controller = segue.destination as! InventoryItemViewController
             controller.auth = self.auth
             controller.user = self.user
         }

@@ -1,8 +1,8 @@
 //
-//  User.swift
+//  QBDInventoryItem.swift
 //  BRIZBEE Mobile for iOS
 //
-//  Copyright © 2019 East Coast Technology Services, LLC
+//  Copyright © 2019-2021 East Coast Technology Services, LLC
 //
 //  This file is part of BRIZBEE Mobile for iOS.
 //
@@ -20,16 +20,20 @@
 //  along with BRIZBEE Mobile for iOS.
 //  If not, see <https://www.gnu.org/licenses/>.
 //
-//  Created by Joshua Shane Martin on 8/20/19.
+//  Created by Joshua Shane Martin on 7/11/21.
 //
 
 import Foundation
 
-struct User {
+struct QBDInventoryItem {
+    let id: Int64
+    let fullName: String
+    let barCodeValue: String
+    let listId: String
     let name: String
-    let emailAddress: String
-    let id: String
-    let timeZone: String
-    let usesMobileApp: Bool
-    let usesTimeCards: Bool
+    let manufacturerPartNumber: String
+    let purchaseCost: String
+    let purchaseDescription: String
+    let salesPrice: String
+    let salesDescription: String
 }

@@ -10,6 +10,11 @@
 		1C0BE8492563897200D28377 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BE8482563897200D28377 /* Customer.swift */; };
 		1C0BE84B2563897B00D28377 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BE84A2563897B00D28377 /* Job.swift */; };
 		1C0BE84D2563898100D28377 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BE84C2563898100D28377 /* Task.swift */; };
+		1C1DDECD269A80DA0030A398 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1DDECC269A80DA0030A398 /* LoadingViewController.swift */; };
+		1C1DDECF269B43D70030A398 /* InventoryItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1DDECE269B43D70030A398 /* InventoryItemViewController.swift */; };
+		1C1DDED1269B4A340030A398 /* InventoryQuantityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1DDED0269B4A340030A398 /* InventoryQuantityViewController.swift */; };
+		1C215F0D269BBC4A003E87C1 /* QBDInventoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C215F0C269BBC4A003E87C1 /* QBDInventoryItem.swift */; };
+		1C215F0F269C99C5003E87C1 /* InventoryConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C215F0E269C99C5003E87C1 /* InventoryConfirmViewController.swift */; };
 		1C2434C8230CF69D00231CC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C7230CF69D00231CC2 /* AppDelegate.swift */; };
 		1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C9230CF69D00231CC2 /* LoginViewController.swift */; };
 		1C2434CD230CF69D00231CC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434CB230CF69D00231CC2 /* Main.storyboard */; };
@@ -19,6 +24,7 @@
 		1C2434E8230CF69F00231CC2 /* BRIZBEEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434E7230CF69F00231CC2 /* BRIZBEEUITests.swift */; };
 		1C29A66B24F5A746002B64AC /* StatusInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C29A66A24F5A746002B64AC /* StatusInViewController.swift */; };
 		1C29A66D24F5A754002B64AC /* StatusOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C29A66C24F5A754002B64AC /* StatusOutViewController.swift */; };
+		1C3C22D5269A499F00AE4AE8 /* ScannerOverlayPreviewLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C22D4269A499F00AE4AE8 /* ScannerOverlayPreviewLayer.swift */; };
 		1C595F2F2351676E00AD529C /* ScanBarCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C595F2E2351676E00AD529C /* ScanBarCodeViewController.swift */; };
 		1C5E22A024F5E45000E58D76 /* StatusStagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5E229F24F5E45000E58D76 /* StatusStagingViewController.swift */; };
 		1C62686E24FB04070027853C /* TimeCardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C62686D24FB04070027853C /* TimeCardTableViewController.swift */; };
@@ -53,6 +59,11 @@
 		1C0BE8482563897200D28377 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		1C0BE84A2563897B00D28377 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 		1C0BE84C2563898100D28377 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		1C1DDECC269A80DA0030A398 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		1C1DDECE269B43D70030A398 /* InventoryItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryItemViewController.swift; sourceTree = "<group>"; };
+		1C1DDED0269B4A340030A398 /* InventoryQuantityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryQuantityViewController.swift; sourceTree = "<group>"; };
+		1C215F0C269BBC4A003E87C1 /* QBDInventoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QBDInventoryItem.swift; sourceTree = "<group>"; };
+		1C215F0E269C99C5003E87C1 /* InventoryConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryConfirmViewController.swift; sourceTree = "<group>"; };
 		1C2434C4230CF69D00231CC2 /* BRIZBEE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BRIZBEE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C2434C7230CF69D00231CC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C2434C9230CF69D00231CC2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +79,7 @@
 		1C2434E9230CF69F00231CC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C29A66A24F5A746002B64AC /* StatusInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusInViewController.swift; sourceTree = "<group>"; };
 		1C29A66C24F5A754002B64AC /* StatusOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusOutViewController.swift; sourceTree = "<group>"; };
+		1C3C22D4269A499F00AE4AE8 /* ScannerOverlayPreviewLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerOverlayPreviewLayer.swift; sourceTree = "<group>"; };
 		1C595F2E2351676E00AD529C /* ScanBarCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanBarCodeViewController.swift; sourceTree = "<group>"; };
 		1C5E229F24F5E45000E58D76 /* StatusStagingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusStagingViewController.swift; sourceTree = "<group>"; };
 		1C62686D24FB04070027853C /* TimeCardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCardTableViewController.swift; sourceTree = "<group>"; };
@@ -149,8 +161,14 @@
 				1C0BE8482563897200D28377 /* Customer.swift */,
 				1C0BE84A2563897B00D28377 /* Job.swift */,
 				1C0BE84C2563898100D28377 /* Task.swift */,
+				1C215F0C269BBC4A003E87C1 /* QBDInventoryItem.swift */,
 				1CC284A72565FE49000E062B /* InputViewLabel.swift */,
 				1C6BE32B25698A10005F661E /* InputViewTableViewCell.swift */,
+				1C3C22D4269A499F00AE4AE8 /* ScannerOverlayPreviewLayer.swift */,
+				1C1DDECC269A80DA0030A398 /* LoadingViewController.swift */,
+				1C1DDECE269B43D70030A398 /* InventoryItemViewController.swift */,
+				1C1DDED0269B4A340030A398 /* InventoryQuantityViewController.swift */,
+				1C215F0E269C99C5003E87C1 /* InventoryConfirmViewController.swift */,
 			);
 			path = BRIZBEE;
 			sourceTree = "<group>";
@@ -307,11 +325,16 @@
 				1C62686E24FB04070027853C /* TimeCardTableViewController.swift in Sources */,
 				1C0BE8492563897200D28377 /* Customer.swift in Sources */,
 				1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */,
+				1C1DDECF269B43D70030A398 /* InventoryItemViewController.swift in Sources */,
 				1C6BE32C25698A10005F661E /* InputViewTableViewCell.swift in Sources */,
 				1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */,
+				1C215F0D269BBC4A003E87C1 /* QBDInventoryItem.swift in Sources */,
 				1C0BE84B2563897B00D28377 /* Job.swift in Sources */,
 				1CD2B9392325DE2100B2B0D8 /* PunchInTaskIdViewController.swift in Sources */,
+				1C1DDECD269A80DA0030A398 /* LoadingViewController.swift in Sources */,
+				1C215F0F269C99C5003E87C1 /* InventoryConfirmViewController.swift in Sources */,
 				1CD2B93D2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift in Sources */,
+				1C1DDED1269B4A340030A398 /* InventoryQuantityViewController.swift in Sources */,
 				1C5E22A024F5E45000E58D76 /* StatusStagingViewController.swift in Sources */,
 				1C0BE84D2563898100D28377 /* Task.swift in Sources */,
 				1C595F2F2351676E00AD529C /* ScanBarCodeViewController.swift in Sources */,
@@ -319,6 +342,7 @@
 				1C73A2102352430900A361B5 /* TaskNumberDelegate.swift in Sources */,
 				1C2434C8230CF69D00231CC2 /* AppDelegate.swift in Sources */,
 				1CD2FBDD234AEE1D00B5CAF0 /* User.swift in Sources */,
+				1C3C22D5269A499F00AE4AE8 /* ScannerOverlayPreviewLayer.swift in Sources */,
 				1C7A1367234BB09E006A2790 /* Auth.swift in Sources */,
 				1C29A66D24F5A754002B64AC /* StatusOutViewController.swift in Sources */,
 				1CC284A82565FE49000E062B /* InputViewLabel.swift in Sources */,
@@ -499,14 +523,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = ZKL4QD94W8;
 				INFOPLIST_FILE = BRIZBEE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brizbee.ios.BRIZBEE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -519,14 +543,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = ZKL4QD94W8;
 				INFOPLIST_FILE = BRIZBEE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brizbee.ios.BRIZBEE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

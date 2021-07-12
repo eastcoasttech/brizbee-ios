@@ -2,7 +2,7 @@
 //  PunchOutConfirmViewController.swift
 //  BRIZBEE Mobile for iOS
 //
-//  Copyright © 2019 East Coast Technology Services, LLC
+//  Copyright © 2019-2021 East Coast Technology Services, LLC
 //
 //  This file is part of BRIZBEE Mobile for iOS.
 //
@@ -34,6 +34,7 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
     var latitude = ""
     var longitude = ""
     let locationManager = CLLocationManager()
+    var loadingVC: LoadingViewController?
     
     @IBOutlet weak var timeZoneTextField: UITextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -41,9 +42,7 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        toggleEnabled(enabled: true)
-        
-        // Hide the back button
+        // Hide the back button.
         navigationItem.hidesBackButton = true
     }
     
@@ -113,10 +112,25 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         timeZoneTextField.resignFirstResponder()
     }
     
-    @IBAction func onContinueButton(_ sender: Any) {
-        self.toggleEnabled(enabled: false)
+    @IBAction func onContinueButton(_ sender: UIButton) {
+        // Reduce the button opacity.
+        sender.alpha = 0.5
+
+        // Return button opacity after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0
+        }
         
-        // Prepare json data
+        // Hide toolbar.
+        self.view.endEditing(true)
+        
+        // Show loading indicator.
+        self.loadingVC = LoadingViewController()
+        self.loadingVC!.modalPresentationStyle = .overCurrentContext
+        self.loadingVC!.modalTransitionStyle = .crossDissolve
+        self.present(loadingVC!, animated: true, completion: nil)
+        
+        // Prepare payload.
         let json: [String: Any] = ["SourceHardware": "Mobile",
                                    "OutAtTimeZone": timeZoneTextField.text!,
                                    "SourceOperatingSystem": "iOS",
@@ -128,33 +142,50 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        // Create the request
+        // Build the request.
         let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Punches/Default.PunchOut")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Add json data to the body
+        // Add payload to the request body.
         request.httpBody = jsonData
         
-        // Set the headers
+        // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
         request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                self.toggleEnabled(enabled: true)
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
             if (responseJSON as? [String: Any]) != nil {
+                
                 DispatchQueue.main.async {
-                    // Return to Status View Controller
+                    
                     if let navigator = self.navigationController {
-                        navigator.popToViewController(navigator.viewControllers[1], animated: true)
+                        
+                        // Dismiss loading indicator and then pop.
+                        self.loadingVC!.dismiss(animated: true, completion: {
+                            navigator.popToViewController(navigator.viewControllers[1], animated: true)
+                        })
                     }
                 }
             }
@@ -163,8 +194,16 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         task.resume()
     }
     
-    // Return to Status View Controller
-    @IBAction func onCancelButton(_ sender: Any) {
+    @IBAction func onCancelButton(_ sender: UIButton) {
+        // Reduce the button opacity.
+        sender.alpha = 0.5
+
+        // Return button opacity after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0
+        }
+        
+        // Return to previous.
         if let navigator = self.navigationController {
             navigator.popViewController(animated: true)
         }
@@ -196,14 +235,19 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         longitude = String(locValue.longitude)
     }
     
-    func toggleEnabled(enabled: Bool) {
-        if (enabled) {
-            loadingIndicator.stopAnimating()
-        } else {
-            loadingIndicator.startAnimating()
-        }
-        loadingIndicator.isHidden = enabled
+    func handleError(error: String?) {
         
-        timeZoneTextField.isEnabled = enabled
+        DispatchQueue.main.async {
+            
+            // Dismiss loading indicator and then alert.
+            self.loadingVC!.dismiss(animated: true, completion: {
+                let alert = UIAlertController(title: "Oops!",
+                                              message: error,
+                                              preferredStyle: .alert)
+                let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                alert.addAction(alertOKAction)
+                self.present(alert, animated: true, completion:nil)
+            })
+        }
     }
 }

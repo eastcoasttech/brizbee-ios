@@ -29,6 +29,8 @@ class LoginViewController: UIViewController {
     var user: User?
     var auth: Auth?
     var timeZones: [String] = []
+    var loadingVC: LoadingViewController?
+    var stagingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status Staging View Controller") as? StatusStagingViewController
     
     @IBOutlet weak var emailOrCodeTextField: UITextField!
     @IBOutlet weak var passwordOrPinTextField: UITextField!
@@ -36,6 +38,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var logoView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,23 +52,19 @@ class LoginViewController: UIViewController {
                                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         passwordOrPinTextField.attributedPlaceholder = NSAttributedString(string: "Your PIN",
                                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        emailOrCodeTextField.becomeFirstResponder()
         
-        // Set padding
+        // Set padding.
         let paddingView1: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.emailOrCodeTextField.frame.height))
-        emailOrCodeTextField.leftView = paddingView1
-        emailOrCodeTextField.leftViewMode = .always
+        self.emailOrCodeTextField.leftView = paddingView1
+        self.emailOrCodeTextField.leftViewMode = .always
         
         let paddingView2: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.emailOrCodeTextField.frame.height))
-        passwordOrPinTextField.leftView = paddingView2
-        passwordOrPinTextField.leftViewMode = .always
+        self.passwordOrPinTextField.leftView = paddingView2
+        self.passwordOrPinTextField.leftViewMode = .always
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Reset the view
-        self.toggleEnabled(enabled: true)
         
         // Tap outside of keyboard will dismiss
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
@@ -77,8 +76,11 @@ class LoginViewController: UIViewController {
         let btnKeyboardDone = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneBtnFromKeyboardClicked))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         barKeyboard.items = [flexibleSpace, btnKeyboardDone]
-        emailOrCodeTextField.inputAccessoryView = barKeyboard
-        passwordOrPinTextField.inputAccessoryView = barKeyboard
+        self.emailOrCodeTextField.inputAccessoryView = barKeyboard
+        self.passwordOrPinTextField.inputAccessoryView = barKeyboard
+        
+        // Set focus.
+        self.emailOrCodeTextField.becomeFirstResponder()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,17 +98,13 @@ class LoginViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             // Configure placeholder and set focus
-            emailOrCodeTextField.attributedPlaceholder = NSAttributedString(string: "Your Organization Code",
-                                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            passwordOrPinTextField.attributedPlaceholder = NSAttributedString(string: "Your PIN",
-                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            emailOrCodeTextField.placeholder = "Your Organization Code"
+            passwordOrPinTextField.placeholder = "Your PIN"
             emailOrCodeTextField.becomeFirstResponder()
         case 1:
             // Configure placeholder and set focus
-            emailOrCodeTextField.attributedPlaceholder = NSAttributedString(string: "Your Email Address",
-                                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            passwordOrPinTextField.attributedPlaceholder = NSAttributedString(string: "Your Password",
-                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            emailOrCodeTextField.placeholder = "Your Email Address"
+            passwordOrPinTextField.placeholder = "Your Password"
             emailOrCodeTextField.becomeFirstResponder()
         default:
             break;
@@ -114,52 +112,81 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginAction(_ sender: UIButton) {
+        // Reduce the button opacity.
+        sender.alpha = 0.5
+
+        // Return button opacity after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0
+        }
         
-        // Do not continue without any credentials
+        // Do not continue if blank.
         if (!emailOrCodeTextField.hasText || !passwordOrPinTextField.hasText) {
             return;
         }
         
-        self.toggleEnabled(enabled: false)
+        // Hide toolbar.
+        self.view.endEditing(true)
         
-        // Prepare json data
+        // Show loading indicator.
+        self.loadingVC = LoadingViewController()
+        self.loadingVC!.modalPresentationStyle = .overCurrentContext
+        self.loadingVC!.modalTransitionStyle = .crossDissolve
+        self.present(loadingVC!, animated: true, completion: nil)
+        
+        // Prepare payload.
         let json: [String: Any] = ["Session": ["Method": "pin",
                                                "PinOrganizationCode": emailOrCodeTextField.text!,
                                                "PinUserPin": passwordOrPinTextField.text!]]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        // Create the request
+        // Build the request.
         let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Users/Default.Authenticate")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Add json data to the body
+        // Add payload to the request body.
         request.httpBody = jsonData
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                self.toggleEnabled(enabled: true)
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                DispatchQueue.main.async {
-                    // Parse JSON for authentication headers
-                    let token = responseJSON["AuthToken"] as? String ?? ""
-                    let expiration = responseJSON["AuthExpiration"] as? String ?? ""
-                    let userId = responseJSON["AuthUserId"] as? String ?? ""
-                    self.auth = Auth(token: token, userId: userId, expiration: expiration)
-                    
-                    // Load the time zones
-                    self.loadTimeZones()
-                    
-                    // Load the authenticated user's details
-                    self.loadUser()
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                var responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                if (response as? HTTPURLResponse)?.statusCode == 400 {
+                    responseData = "Invalid organization code and user pin."
                 }
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let json = json as? [String: Any] {
+                
+                // Parse JSON for authentication headers.
+                let token = json["AuthToken"] as? String ?? ""
+                let expiration = json["AuthExpiration"] as? String ?? ""
+                let userId = json["AuthUserId"] as? String ?? ""
+                self.auth = Auth(token: token, userId: userId, expiration: expiration)
+                
+                // Load the time zones.
+                self.loadTimeZones()
+                
+                // Load the user details.
+                self.loadUser()
             }
         }
         
@@ -167,45 +194,85 @@ class LoginViewController: UIViewController {
     }
     
     func loadUser() {
-        // Create the request
+        // Build the request.
         let url = URL(string: String(format: "https://app-brizbee-prod.azurewebsites.net/odata/Users(%@)", self.auth?.userId ?? ""))!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Set the headers
+        // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
         request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let json = json as? [String: Any] {
+                
                 DispatchQueue.main.async {
-                    // Parse JSON for user details
-                    let nameString = responseJSON["Name"] as? String ?? ""
-                    let emailString = responseJSON["EmailAddress"] as? String ?? ""
-                    let idString = responseJSON["Id"] as? String ?? ""
-                    let timeZoneString = responseJSON["TimeZone"] as? String ?? ""
-                    self.user = User(name: nameString, emailAddress: emailString, id: idString, timeZone: timeZoneString)
-
-                    // Push status view controller
-                    if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status Staging View Controller") as? StatusStagingViewController {
-                        viewController.auth = self.auth
-                        viewController.user = self.user
-                        viewController.timeZones = self.timeZones
-                        if let navigator = self.navigationController {
-                            navigator.pushViewController(viewController, animated: true)
-                            
-                            // Clear login fields
-                            self.emailOrCodeTextField.text = ""
-                            self.passwordOrPinTextField.text = ""
-                        }
+                    
+                    // Parse the response.
+                    let nameString = json["Name"] as? String ?? ""
+                    let emailString = json["EmailAddress"] as? String ?? ""
+                    let idString = json["Id"] as? String ?? ""
+                    let timeZoneString = json["TimeZone"] as? String ?? ""
+                    let usesTimeCards = json["UsesTimesheets"] as? Bool ?? false
+                    let usesMobileApp = json["UsesMobileClock"] as? Bool ?? false
+                    self.user = User(name: nameString,
+                                     emailAddress: emailString,
+                                     id: idString,
+                                     timeZone: timeZoneString,
+                                     usesMobileApp: usesMobileApp,
+                                     usesTimeCards: usesTimeCards)
+                    
+                    // Check if the user is allowed to use the mobile app.
+                    if (usesMobileApp == false) {
+                        
+                        // Dismiss loading indicator and then alert.
+                        self.loadingVC!.dismiss(animated: true, completion: {
+                            let alert = UIAlertController(title: "Oops!",
+                                                          message: "You are not allowed to use the mobile app. Please contact your administrator.",
+                                                          preferredStyle: .alert)
+                            let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                            alert.addAction(alertOKAction)
+                            self.present(alert, animated: true, completion:nil)
+                        })
+                        
+                        return
+                    }
+                    
+                    // Push staging view controller.
+                    self.stagingVC!.auth = self.auth
+                    self.stagingVC!.user = self.user
+                    self.stagingVC!.timeZones = self.timeZones
+                    if let navigator = self.navigationController {
+                        
+                        // Clear fields.
+                        self.emailOrCodeTextField.text = ""
+                        self.passwordOrPinTextField.text = ""
+                        
+                        // Dismiss loading indicator and then push.
+                        self.loadingVC!.dismiss(animated: true, completion: {
+                            navigator.pushViewController(self.stagingVC!, animated: true)
+                        })
                     }
                 }
             }
@@ -215,26 +282,39 @@ class LoginViewController: UIViewController {
     }
     
     func loadTimeZones() {
-        // Create the request
+        // Build the request.
         let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Organizations/Default.Timezones")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Set the headers
+        // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
         request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                let valueJSON = responseJSON["value"] as? [Any]
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let json = json as? [String: Any] {
+                let valueJSON = json["value"] as? [Any]
                 for item in valueJSON! {
                     if let itemJSON = item as? [String: Any] {
                         if let id = itemJSON["Id"] as? String {
@@ -248,20 +328,34 @@ class LoginViewController: UIViewController {
         task.resume()
     }
     
-    func toggleEnabled(enabled: Bool) {
-        if (enabled) {
-            loadingIndicator.stopAnimating()
-        } else {
-            loadingIndicator.startAnimating()
-        }
-        loadingIndicator.isHidden = enabled
+    func handleError(error: String?) {
         
-        emailOrCodeTextField.isEnabled = enabled
-        passwordOrPinTextField.isEnabled = enabled
-        segmentedControl.isEnabled = enabled
-        loginButton.isEnabled = enabled
+        DispatchQueue.main.async {
+            
+            // Dismiss loading indicator and then alert.
+            self.loadingVC!.dismiss(animated: true, completion: {
+                let alert = UIAlertController(title: "Oops!",
+                                              message: error,
+                                              preferredStyle: .alert)
+                let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                alert.addAction(alertOKAction)
+                self.present(alert, animated: true, completion:nil)
+            })
+        }
     }
-
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *) {
+            if (self.traitCollection.userInterfaceStyle == .dark) {
+                print("Entered dark mode")
+            } else {
+                print("Entered light mode")
+            }
+        }
+    }
+    
     // Stored values for resetting the scroll position
     var scrollOffset : CGFloat = 0
     var distance : CGFloat = 0

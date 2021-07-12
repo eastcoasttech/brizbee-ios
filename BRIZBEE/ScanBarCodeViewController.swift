@@ -30,7 +30,10 @@ class ScanBarCodeViewController: UIViewController, AVCaptureMetadataOutputObject
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var barCodeFrameView: UIView?
+    var boxFrameView: UIView?
+    var scannerView = UIView()
     var taskNumberDelegate: TaskNumberDelegate?
+    var captured: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,34 +82,31 @@ class ScanBarCodeViewController: UIViewController, AVCaptureMetadataOutputObject
             
             // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
             let captureMetadataOutput = AVCaptureMetadataOutput()
-            captureSession!.addOutput(captureMetadataOutput)
             
-            // Set delegate and use the default dispatch queue to execute the call back
-            captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.code128]
+            if (captureSession!.canAddOutput(captureMetadataOutput)) {
+                captureSession!.addOutput(captureMetadataOutput)
+                
+                // Set delegate and use the default dispatch queue to execute the call back
+                captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+                captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.code128]
+            } else {
+                return
+            }
+            
+            let scannerOverlayPreviewLayer = ScannerOverlayPreviewLayer(session: captureSession!)
+            scannerOverlayPreviewLayer.frame = view.bounds
+            scannerOverlayPreviewLayer.maskSize = CGSize(width: 200, height: 200)
+            scannerOverlayPreviewLayer.videoGravity = .resizeAspectFill
+            view.layer.addSublayer(scannerOverlayPreviewLayer)
+            captureMetadataOutput.rectOfInterest = scannerOverlayPreviewLayer.rectOfInterest
+            
+            // Start video capture.
+            captureSession!.startRunning()
+            
         } catch {
             // If any error occurs, simply print it out and don't continue any more.
             print(error)
             return
-        }
-        
-        // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
-        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-        videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        videoPreviewLayer?.frame = view.layer.bounds
-        view.layer.addSublayer(videoPreviewLayer!)
-        
-        // Start video capture.
-        captureSession!.startRunning()
-
-        // Initialize the frame to highlight the barcode
-        barCodeFrameView = UIView()
-         
-        if let barCodeFrameView = barCodeFrameView {
-            barCodeFrameView.layer.borderColor = UIColor.green.cgColor
-            barCodeFrameView.layer.borderWidth = 4
-            view.addSubview(barCodeFrameView)
-            view.bringSubviewToFront(barCodeFrameView)
         }
     }
     
@@ -128,10 +128,14 @@ class ScanBarCodeViewController: UIViewController, AVCaptureMetadataOutputObject
 
             // Take the user back to the task number view
             if metadataObj.stringValue != nil {
-                let taskNumber = metadataObj.stringValue
-                if let navigator = self.navigationController {
-                    self.taskNumberDelegate?.taskNumber(taskNumber: taskNumber ?? "")
-                    navigator.popToViewController(navigator.viewControllers[2], animated: true)
+                if (!captured)
+                {
+                    let taskNumber = metadataObj.stringValue
+                    captured = true
+                    if let navigator = self.navigationController {
+                        self.taskNumberDelegate?.taskNumber(taskNumber: taskNumber ?? "")
+                        navigator.popViewController(animated: true)
+                    }
                 }
             }
         }

@@ -1,8 +1,8 @@
 //
-//  PunchInTaskIdViewController.swift
+//  InventoryItemViewController.swift
 //  BRIZBEE Mobile for iOS
 //
-//  Copyright © 2019 East Coast Technology Services, LLC
+//  Copyright © 2019-2021 East Coast Technology Services, LLC
 //
 //  This file is part of BRIZBEE Mobile for iOS.
 //
@@ -20,26 +20,22 @@
 //  along with BRIZBEE Mobile for iOS.
 //  If not, see <https://www.gnu.org/licenses/>.
 //
-//  Created by Joshua Shane Martin on 8/20/19.
+//  Created by Joshua Shane Martin on 7/11/21.
 //
 
 import UIKit
-import AVFoundation
 
-class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
+class InventoryItemViewController: UIViewController, TaskNumberDelegate {
     var auth: Auth?
-    var task: [String: Any]?
-    var timeZones: [String]?
-    var timeZone: String?
     var user: User?
+    var inventoryItem: QBDInventoryItem?
     var loadingVC: LoadingViewController?
-    var confirmVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Punch In Confirm View Controller") as? PunchInConfirmViewController
+    var quantityVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Inventory Quantity View Controller") as? InventoryQuantityViewController
     
+    @IBOutlet weak var barCodeValueTextField: UITextField!
     @IBOutlet weak var scanButton: UIButton!
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var taskNumberTextField: UITextField!
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
@@ -53,7 +49,7 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Hide the back button
+        // Hide the back button.
         navigationItem.hidesBackButton = true
         
         // Tap outside of keyboard will dismiss.
@@ -66,18 +62,18 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
         let btnKeyboardDone = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneBtnFromKeyboardClicked))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         barKeyboard.items = [flexibleSpace, btnKeyboardDone]
-        taskNumberTextField.inputAccessoryView = barKeyboard
+        barCodeValueTextField.inputAccessoryView = barKeyboard
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Search for the task number that was provided from the barcode.
-        if (self.taskNumberTextField.text?.count ?? 0 > 0) {
-            self.searchTaskNumber()
+        // Search for the bar code value that was provided from the barcode.
+        if (self.barCodeValueTextField.text?.count ?? 0 > 0) {
+            self.searchInventoryItem()
         }
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -113,7 +109,7 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             sender.alpha = 1.0
         }
         
-        self.searchTaskNumber()
+        self.searchInventoryItem()
     }
     
     @IBAction func onScanButton(_ sender: UIButton) {
@@ -133,21 +129,26 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
         }
     }
     
-    func searchTaskNumber() {
+    func taskNumber(taskNumber: String) {
+        self.barCodeValueTextField.text = taskNumber
+    }
+    
+    func searchInventoryItem() {
         
         // Hide toolbar.
         self.view.endEditing(true)
         
         // Do not continue if blank.
-        if (!taskNumberTextField.hasText) {
+        if (!barCodeValueTextField.hasText) {
+            
             let alert = UIAlertController(title: "Oops!",
-                                          message: "You must provide a task number.",
+                                          message: "You must provide a bar code value.",
                                           preferredStyle: .alert)
             let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
             alert.addAction(alertOKAction)
             self.present(alert, animated: true, completion:nil)
             
-            return
+            return;
         }
         
         // Show loading indicator.
@@ -156,16 +157,16 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
         self.loadingVC!.modalTransitionStyle = .crossDissolve
         self.present(loadingVC!, animated: true, completion: nil)
         
-        let taskNumber = taskNumberTextField.text!
+        let barCodeValue = barCodeValueTextField.text!
         
         // Build the request.
-        let originalString = String(format: "https://app-brizbee-prod.azurewebsites.net/odata/Tasks?$expand=Job($expand=Customer)&$filter=Number eq '%@'", taskNumber)
+        let originalString = String(format: "https://app-brizbee-prod.azurewebsites.net/api/QBDInventoryItems/Search?barCode=%@", barCodeValue)
         let escapedString = originalString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let url = URL(string: escapedString!)!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+
         // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
@@ -183,7 +184,11 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
                 
-                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                var responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                if (response as? HTTPURLResponse)?.statusCode == 404 {
+                    responseData = "No item matches that bar code value."
+                }
                 
                 self.handleError(error: responseData)
                 
@@ -194,45 +199,40 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             if let responseJSON = responseJSON as? [String: Any] {
                 
                 // Parse the response.
-                if let valueJSON = responseJSON["value"] as? [Any] {
+                let idInt = responseJSON["Id"] as? Int64 ?? 0
+                let fullNameString = responseJSON["FullName"] as? String ?? ""
+                let barCodeValueString = responseJSON["BarCodeValue"] as? String ?? ""
+                let listIdString = responseJSON["ListId"] as? String ?? ""
+                let nameString = responseJSON["Name"] as? String ?? ""
+                let manufacturerPartNumberString = responseJSON["ManufacturerPartNumber"] as? String ?? ""
+                let purchaseCostString = responseJSON["PurchaseCost"] as? String ?? ""
+                let purchaseDescriptionString = responseJSON["PurchaseDescription"] as? String ?? ""
+                let salesPriceString = responseJSON["SalesPrice"] as? String ?? ""
+                let salesDescriptionString = responseJSON["SalesDescription"] as? String ?? ""
+                
+                self.inventoryItem = QBDInventoryItem(id: idInt, fullName: fullNameString, barCodeValue: barCodeValueString, listId: listIdString, name: nameString, manufacturerPartNumber: manufacturerPartNumberString, purchaseCost: purchaseCostString, purchaseDescription: purchaseDescriptionString, salesPrice: salesPriceString, salesDescription: salesDescriptionString)
+                
+                DispatchQueue.main.async {
                     
-                    if valueJSON.count == 0 {
+                    // Push quantity.
+                    self.quantityVC!.auth = self.auth
+                    self.quantityVC!.user = self.user
+                    self.quantityVC!.inventoryItem = self.inventoryItem
+                    if let navigator = self.navigationController {
                         
-                        // No tasks match the number.
-                        self.handleError(error: "There are no tasks with that number.")
-                    }
-                    
-                    // Task was found.
-                    self.task = valueJSON.first as? [String: Any]
-                    
-                    DispatchQueue.main.async {
+                        // Clear fields now instead of when appearing.
+                        self.barCodeValueTextField.text = ""
                         
-                        // Push confirm.
-                        self.confirmVC!.auth = self.auth
-                        self.confirmVC!.user = self.user
-                        self.confirmVC!.task = self.task
-                        self.confirmVC!.timeZone = self.timeZone
-                        self.confirmVC!.timeZones = self.timeZones
-                        if let navigator = self.navigationController {
-                            
-                            // Clear fields now instead of when appearing.
-                            self.taskNumberTextField.text = ""
-                            
-                            // Dismiss loading indicator and then push.
-                            self.loadingVC!.dismiss(animated: true, completion: {
-                                navigator.pushViewController(self.confirmVC!, animated: true)
-                            })
-                        }
+                        // Dismiss loading indicator and then push.
+                        self.loadingVC!.dismiss(animated: true, completion: {
+                            navigator.pushViewController(self.quantityVC!, animated: true)
+                        })
                     }
                 }
             }
         }
-        
+
         task.resume()
-    }
-    
-    func taskNumber(taskNumber: String) {
-        self.taskNumberTextField.text = taskNumber
     }
     
     func handleError(error: String?) {
@@ -250,12 +250,12 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             })
         }
     }
-
-    // Stored values for resetting the scroll position
+    
+    // Stored values for resetting the scroll position.
     var scrollOffset : CGFloat = 0
     var distance : CGFloat = 0
     
-    // Move the scroll position to accomodate the keyboard if it is necessary
+    // Move the scroll position to accomodate the keyboard if it is necessary.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
 
@@ -264,7 +264,7 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             safeArea.size.height -= keyboardSize.height + (UIScreen.main.bounds.height*0.24) // Adjust buffer
 
             // Determine which UIView was made active and if it is covered by keyboard
-            let activeField: UIView? = [taskNumberTextField].first { $0.isFirstResponder }
+            let activeField: UIView? = [barCodeValueTextField].first { $0.isFirstResponder }
             if let activeField = activeField {
                 if safeArea.contains(CGPoint(x: 0, y: activeField.frame.maxY)) {
                     // No need to scroll

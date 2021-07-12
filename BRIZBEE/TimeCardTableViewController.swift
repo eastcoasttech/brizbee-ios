@@ -39,6 +39,7 @@ class TimeCardTableViewController: UITableViewController {
     var taskPicker: UIPickerView?
     var hour: NSNumber = 0
     var minute: NSNumber = 0
+    var loadingVC: LoadingViewController?
     
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var customerLabel: InputViewLabel!
@@ -51,11 +52,28 @@ class TimeCardTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Hide the back button
+        // Hide the back button.
         navigationItem.hidesBackButton = true
     }
     
-    @IBAction func onContinueButton(_ sender: Any) {
+    @IBAction func onContinueButton(_ sender: UIButton) {
+        // Reduce the button opacity.
+        sender.alpha = 0.5
+
+        // Return button opacity after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0
+        }
+        
+        // Hide toolbar.
+        self.view.endEditing(true)
+        
+        // Show loading indicator.
+        self.loadingVC = LoadingViewController()
+        self.loadingVC!.modalPresentationStyle = .overCurrentContext
+        self.loadingVC!.modalTransitionStyle = .crossDissolve
+        self.present(loadingVC!, animated: true, completion: nil)
+        
         if ((Int(truncating: hour) + Int(truncating: minute)) == 0) {
             let uialert = UIAlertController(title: "Oops!", message: "Must specify hours and minutes.", preferredStyle: UIAlertController.Style.alert)
             uialert.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default, handler: nil))
@@ -63,9 +81,7 @@ class TimeCardTableViewController: UITableViewController {
             return
         }
         
-        self.toggleEnabled(enabled: false)
-        
-        // Prepare json data
+        // Prepare payload.
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let json: [String: Any] = ["UserId" : self.auth!.userId,
@@ -75,34 +91,50 @@ class TimeCardTableViewController: UITableViewController {
                                    "EnteredAt": dateFormatter.string(from: datePicker.date)]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        // Create the request
+        // Build the request.
         let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/TimesheetEntries")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Add json data to the body
+        // Add payload to the request body.
         request.httpBody = jsonData
         
-        // Set the headers
+        // Set the headers.
         request.addValue(self.auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(self.auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
         request.addValue(self.auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                self.toggleEnabled(enabled: true)
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
             
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if (responseJSON as? [String: Any]) != nil {
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if (json as? [String: Any]) != nil {
+                
                 DispatchQueue.main.async {
-                    // Return to Status View Controller
+                    
                     if let navigator = self.navigationController {
-                        navigator.popToViewController(navigator.viewControllers[1], animated: true)
+                        
+                        // Dismiss loading indicator and then pop.
+                        self.loadingVC!.dismiss(animated: true, completion: {
+                            navigator.popToViewController(navigator.viewControllers[1], animated: true)
+                        })
                     }
                 }
             }
@@ -111,8 +143,16 @@ class TimeCardTableViewController: UITableViewController {
         task.resume()
     }
     
-    // Return to Status View Controller
-    @IBAction func onCancelButton(_ sender: Any) {
+    @IBAction func onCancelButton(_ sender: UIButton) {
+        // Reduce the button opacity.
+        sender.alpha = 0.5
+
+        // Return button opacity after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0
+        }
+        
+        // Return to previous.
         if let navigator = self.navigationController {
             navigator.popViewController(animated: true)
         }
@@ -178,28 +218,40 @@ class TimeCardTableViewController: UITableViewController {
         reloadCustomers()
     }
     
-    func reloadCustomers()
-    {
-        // Create the request
+    func reloadCustomers() {
+        // Build the request.
         let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Customers?$orderby=Number")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Set the headers
+        // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
         request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                let valueJSON = responseJSON["value"] as? [Any]
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let json = json as? [String: Any] {
+                let valueJSON = json["value"] as? [Any]
                 
                 // Reset the customers, jobs, and tasks
                 self.customers = []
@@ -227,9 +279,8 @@ class TimeCardTableViewController: UITableViewController {
         task.resume()
     }
     
-    func reloadJobs()
-    {
-        // Create the request
+    func reloadJobs() {
+        // Build the request.
         let parameters = [
             "$filter": String(format: "CustomerId eq %i", customer!.id),
             "$orderby": "Number"
@@ -242,20 +293,33 @@ class TimeCardTableViewController: UITableViewController {
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Set the headers
+        // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
         request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                let valueJSON = responseJSON["value"] as? [Any]
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let json = json as? [String: Any] {
+                let valueJSON = json["value"] as? [Any]
                 
                 // Reset the jobs and tasks
                 self.jobs = []
@@ -281,9 +345,8 @@ class TimeCardTableViewController: UITableViewController {
         task.resume()
     }
     
-    func reloadTasks()
-    {
-        // Create the request
+    func reloadTasks() {
+        // Build the request.
         let parameters = [
             "$filter": String(format: "JobId eq %i", job!.id),
             "$orderby": "Number"
@@ -296,20 +359,33 @@ class TimeCardTableViewController: UITableViewController {
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Set the headers
+        // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
         request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
         request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
         
-        // Send the request
+        // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
+            if let error = error {
+                
+                self.handleError(error: error.localizedDescription)
+                
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                let valueJSON = responseJSON["value"] as? [Any]
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                
+                let responseData = String(data: data!, encoding: String.Encoding.utf8)
+                
+                self.handleError(error: responseData)
+                
+                return
+            }
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let json = json as? [String: Any] {
+                let valueJSON = json["value"] as? [Any]
                 
                 // Reset the tasks
                 self.tasks = []
@@ -333,20 +409,19 @@ class TimeCardTableViewController: UITableViewController {
         task.resume()
     }
     
-    func toggleEnabled(enabled: Bool) {
-//        if (enabled) {
-//            loadingIndicator.stopAnimating()
-//        } else {
-//            loadingIndicator.startAnimating()
-//        }
-//        loadingIndicator.isHidden = enabled
+    func handleError(error: String?) {
         
-        datePicker.isEnabled = enabled
-        hourLabel.isEnabled = enabled
-        minuteLabel.isEnabled = enabled
-        customerLabel.isEnabled = enabled
-        jobLabel.isEnabled = enabled
-        taskLabel.isEnabled = enabled
-        notesTextView.isEditable = enabled
+        DispatchQueue.main.async {
+            
+            // Dismiss loading indicator and then alert.
+            self.loadingVC!.dismiss(animated: true, completion: {
+                let alert = UIAlertController(title: "Oops!",
+                                              message: error,
+                                              preferredStyle: .alert)
+                let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                alert.addAction(alertOKAction)
+                self.present(alert, animated: true, completion:nil)
+            })
+        }
     }
 }
