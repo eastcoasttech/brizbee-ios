@@ -1316,7 +1316,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="784"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jjk-gO-l6R" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="8" width="414" height="776.5"/>
+                                        <rect key="frame" x="0.0" y="8" width="414" height="776"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello [NAME]" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAe-Q6-VZg">
                                                 <rect key="frame" x="155.5" y="28" width="103" height="20.5"/>
@@ -1558,8 +1558,13 @@
                     </view>
                     <connections>
                         <outlet property="customerLabel" destination="LnP-NW-9xO" id="t1H-EA-UhP"/>
+                        <outlet property="inventoryButton" destination="3J2-JT-V3J" id="N4O-N0-NSi"/>
                         <outlet property="jobLabel" destination="DHb-DS-Zyf" id="HS3-Ek-y5j"/>
+                        <outlet property="logoutButton" destination="gk4-mG-zkc" id="jTn-gJ-B9x"/>
                         <outlet property="nameLabel" destination="fAe-Q6-VZg" id="mbO-DH-5Ve"/>
+                        <outlet property="punchInButton" destination="eRl-aq-HPJ" id="wNQ-YV-yYN"/>
+                        <outlet property="punchOutButton" destination="zKR-MX-ZoV" id="ed9-jg-XWU"/>
+                        <outlet property="scrollView" destination="njp-ZA-vTl" id="dwp-yE-4ma"/>
                         <outlet property="sinceLabel" destination="VRQ-sR-zpo" id="oe1-7r-LAx"/>
                         <outlet property="sinceTimeZoneLabel" destination="KjV-Df-Ifn" id="LAE-Yu-Y5x"/>
                         <outlet property="taskLabel" destination="FJH-qz-qjS" id="Zuu-pD-2s6"/>
@@ -1706,7 +1711,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="logoutButton" destination="cPs-8e-L5l" id="ZDk-HF-QSI"/>
                         <outlet property="nameLabel" destination="V18-WX-ed4" id="d9l-xg-dUz"/>
+                        <outlet property="punchInButton" destination="kRx-Yn-Ye2" id="4wO-Pe-DaI"/>
+                        <outlet property="scrollView" destination="YcW-Ua-44t" id="mzl-hc-kUu"/>
                         <outlet property="timeCardButton" destination="ea3-tZ-cbS" id="iFd-JD-vKT"/>
                         <segue destination="T8q-Dk-tDh" kind="show" identifier="punchInSegue" id="lEh-W3-EsT"/>
                     </connections>

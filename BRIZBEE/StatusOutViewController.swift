@@ -35,6 +35,7 @@ class StatusOutViewController: UIViewController {
     @IBOutlet weak var punchInButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var timeCardButton: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBAction func onPunchInButton(_ sender: UIButton) {
         // Reduce the button opacity.
@@ -73,6 +74,9 @@ class StatusOutViewController: UIViewController {
         if (user?.usesTimeCards == false) {
             self.timeCardButton.removeFromSuperview()
         }
+        
+        // Scroll to top.
+        scrollView.setContentOffset(.zero, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -227,24 +227,24 @@ class LoginViewController: UIViewController {
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
             if let json = json as? [String: Any] {
                 
-                DispatchQueue.main.async {
+                // Parse the response.
+                let nameString = json["Name"] as? String ?? ""
+                let emailString = json["EmailAddress"] as? String ?? ""
+                let idString = json["Id"] as? String ?? ""
+                let timeZoneString = json["TimeZone"] as? String ?? ""
+                let usesTimeCards = json["UsesTimesheets"] as? Bool ?? false
+                let usesMobileApp = json["UsesMobileClock"] as? Bool ?? false
+                self.user = User(name: nameString,
+                                 emailAddress: emailString,
+                                 id: idString,
+                                 timeZone: timeZoneString,
+                                 usesMobileApp: usesMobileApp,
+                                 usesTimeCards: usesTimeCards)
+                
+                // Check if the user is allowed to use the mobile app.
+                if (usesMobileApp == false) {
                     
-                    // Parse the response.
-                    let nameString = json["Name"] as? String ?? ""
-                    let emailString = json["EmailAddress"] as? String ?? ""
-                    let idString = json["Id"] as? String ?? ""
-                    let timeZoneString = json["TimeZone"] as? String ?? ""
-                    let usesTimeCards = json["UsesTimesheets"] as? Bool ?? false
-                    let usesMobileApp = json["UsesMobileClock"] as? Bool ?? false
-                    self.user = User(name: nameString,
-                                     emailAddress: emailString,
-                                     id: idString,
-                                     timeZone: timeZoneString,
-                                     usesMobileApp: usesMobileApp,
-                                     usesTimeCards: usesTimeCards)
-                    
-                    // Check if the user is allowed to use the mobile app.
-                    if (usesMobileApp == false) {
+                    DispatchQueue.main.async {
                         
                         // Dismiss loading indicator and then alert.
                         self.loadingVC!.dismiss(animated: true, completion: {
@@ -255,14 +255,18 @@ class LoginViewController: UIViewController {
                             alert.addAction(alertOKAction)
                             self.present(alert, animated: true, completion:nil)
                         })
-                        
-                        return
                     }
                     
-                    // Push staging view controller.
-                    self.stagingVC!.auth = self.auth
-                    self.stagingVC!.user = self.user
-                    self.stagingVC!.timeZones = self.timeZones
+                    return
+                }
+                
+                // Push staging view controller.
+                self.stagingVC!.auth = self.auth
+                self.stagingVC!.user = self.user
+                self.stagingVC!.timeZones = self.timeZones
+                
+                DispatchQueue.main.async {
+                    
                     if let navigator = self.navigationController {
                         
                         // Clear fields.
