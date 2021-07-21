@@ -100,6 +100,8 @@ class StatusStagingViewController: UIViewController {
                                 navigator.pushViewController(self.statusOutVC!, animated: true)
                             }
                         }
+                        
+                        return
                     }
                     
                     let valueFirstJSON = valueJSON.first as? [String: Any]
