@@ -106,16 +106,25 @@ class InventoryConfirmViewController: UIViewController {
         // Prepare the parameters.
         let hostname = UIDevice.current.name
         let unitOfMeasure = ""
-        var unitOfMeasureQueryParameter = ""
+        
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/InventoryItems/Consume"
+
+        components.queryItems = [
+            URLQueryItem(name: "qbdInventoryItemId", value: String(inventoryItem!.id)),
+            URLQueryItem(name: "quantity", value: String(quantity!)),
+            URLQueryItem(name: "hostname", value: hostname)
+        ]
         
         if unitOfMeasure.count != 0 {
-            unitOfMeasureQueryParameter = String(format: "&unitOfMeasure=%@", unitOfMeasure)
+            components.queryItems?.append( URLQueryItem(name: "unitOfMeasure", value: unitOfMeasure) )
         }
         
         // Build the request.
-        let originalString = String(format: "https://app-brizbee-prod.azurewebsites.net/api/QBDInventoryConsumptions/Consume?qbdInventoryItemId=%d&quantity=%d&hostname=%@%@", inventoryItem!.id, quantity!, hostname, unitOfMeasureQueryParameter)
-        let escapedString = originalString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let url = URL(string: escapedString!)!
+        let url = URL(string: components.string!)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

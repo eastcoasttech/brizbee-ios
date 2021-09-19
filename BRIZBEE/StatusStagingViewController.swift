@@ -51,8 +51,14 @@ class StatusStagingViewController: UIViewController {
     
     func loadCurrentPunch() {
         
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/Punches/Current"
+        
         // Build the request.
-        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Punches/Default.Current?$expand=Task($expand=Job($expand=Customer))")!
+        let url = URL(string: components.string!)!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -84,87 +90,82 @@ class StatusStagingViewController: UIViewController {
             let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
             if let responseJSON = responseJSON as? [String: Any] {
                 
-                // Parse the response.
-                if let valueJSON = responseJSON["value"] as? [Any] {
-                    
-                    if valueJSON.count == 0 {
-                        
-                        DispatchQueue.main.async {
-                            
-                            // User is punched out and will be pushed to status out.
-                            self.statusOutVC!.auth = self.auth
-                            self.statusOutVC!.user = self.user
-                            self.statusOutVC!.timeZone = self.timeZone
-                            self.statusOutVC!.timeZones = self.timeZones
-                            if let navigator = self.navigationController {
-                                navigator.pushViewController(self.statusOutVC!, animated: true)
-                            }
-                        }
-                        
-                        return
-                    }
-                    
-                    let valueFirstJSON = valueJSON.first as? [String: Any]
-                    
-                    // Since
-                    let inAt = valueFirstJSON?["InAt"] as? String ?? ""
-                    
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                    dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-                    let date = dateFormatter.date(from:inAt)!
-                    
-                    let humanFormatter = DateFormatter()
-                    humanFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-                    humanFormatter.dateFormat = "MMM dd, yyyy h:mm a"
-                    humanFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-                    let humanString = humanFormatter.string(from: date)
-                    
-                    self.currentSince = humanString
-                    
-                    // Since Time Zone
-                    let inAtTimeZone = valueFirstJSON?["InAtTimeZone"] as? String ?? ""
-                    self.currentSinceTimeZone = inAtTimeZone
-                    
-                    // Use this time zone to punch in or out later
-                    self.timeZone = inAtTimeZone
-                    
-                    // Task
-                    let task = valueFirstJSON?["Task"] as? [String: Any]
-                    let taskNumber = task?["Number"] as? String ?? ""
-                    let taskName = task?["Name"] as? String ?? ""
-                    let taskString = String(format: "%@ - %@", taskNumber, taskName)
-                    self.currentTask = taskString
-                    
-                    // Job
-                    let job = task?["Job"] as? [String: Any]
-                    let jobNumber = job?["Number"] as? String ?? ""
-                    let jobName = job?["Name"] as? String ?? ""
-                    let jobString = String(format: "%@ - %@", jobNumber, jobName)
-                    self.currentJob = jobString
-                    
-                    // Customer
-                    let customer = job?["Customer"] as? [String: Any]
-                    let customerNumber = customer?["Number"] as? String ?? ""
-                    let customerName = customer?["Name"] as? String ?? ""
-                    let customerString = String(format: "%@ - %@", customerNumber, customerName)
-                    self.currentCustomer = customerString
+                // Check for a response.
+                if (responseJSON.isEmpty) {
                     
                     DispatchQueue.main.async {
                         
-                        // User is punched in and will be pushed to status in.
-                        self.statusInVC!.auth = self.auth
-                        self.statusInVC!.user = self.user
-                        self.statusInVC!.timeZone = self.timeZone
-                        self.statusInVC!.timeZones = self.timeZones
-                        self.statusInVC!.currentSince = self.currentSince
-                        self.statusInVC!.currentSinceTimeZone = self.currentSinceTimeZone
-                        self.statusInVC!.currentTask = self.currentTask
-                        self.statusInVC!.currentJob = self.currentJob
-                        self.statusInVC!.currentCustomer = self.currentCustomer
+                        // User is punched out and will be pushed to status out.
+                        self.statusOutVC!.auth = self.auth
+                        self.statusOutVC!.user = self.user
+                        self.statusOutVC!.timeZone = self.timeZone
+                        self.statusOutVC!.timeZones = self.timeZones
                         if let navigator = self.navigationController {
-                            navigator.pushViewController(self.statusInVC!, animated: true)
+                            navigator.pushViewController(self.statusOutVC!, animated: true)
                         }
+                    }
+                    
+                    return
+                }
+                
+                // Since
+                let inAt = responseJSON["InAt"] as? String ?? ""
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+                let date = dateFormatter.date(from:inAt)!
+                
+                let humanFormatter = DateFormatter()
+                humanFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+                humanFormatter.dateFormat = "MMM dd, yyyy h:mm a"
+                humanFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+                let humanString = humanFormatter.string(from: date)
+                
+                self.currentSince = humanString
+                
+                // Since Time Zone
+                let inAtTimeZone = responseJSON["InAtTimeZone"] as? String ?? ""
+                self.currentSinceTimeZone = inAtTimeZone
+                
+                // Use this time zone to punch in or out later
+                self.timeZone = inAtTimeZone
+                
+                // Task
+                let task = responseJSON["Task"] as? [String: Any]
+                let taskNumber = task?["Number"] as? String ?? ""
+                let taskName = task?["Name"] as? String ?? ""
+                let taskString = String(format: "%@ - %@", taskNumber, taskName)
+                self.currentTask = taskString
+                
+                // Job
+                let job = task?["Job"] as? [String: Any]
+                let jobNumber = job?["Number"] as? String ?? ""
+                let jobName = job?["Name"] as? String ?? ""
+                let jobString = String(format: "%@ - %@", jobNumber, jobName)
+                self.currentJob = jobString
+                
+                // Customer
+                let customer = job?["Customer"] as? [String: Any]
+                let customerNumber = customer?["Number"] as? String ?? ""
+                let customerName = customer?["Name"] as? String ?? ""
+                let customerString = String(format: "%@ - %@", customerNumber, customerName)
+                self.currentCustomer = customerString
+                
+                DispatchQueue.main.async {
+                    
+                    // User is punched in and will be pushed to status in.
+                    self.statusInVC!.auth = self.auth
+                    self.statusInVC!.user = self.user
+                    self.statusInVC!.timeZone = self.timeZone
+                    self.statusInVC!.timeZones = self.timeZones
+                    self.statusInVC!.currentSince = self.currentSince
+                    self.statusInVC!.currentSinceTimeZone = self.currentSinceTimeZone
+                    self.statusInVC!.currentTask = self.currentTask
+                    self.statusInVC!.currentJob = self.currentJob
+                    self.statusInVC!.currentCustomer = self.currentCustomer
+                    if let navigator = self.navigationController {
+                        navigator.pushViewController(self.statusInVC!, animated: true)
                     }
                 }
             }

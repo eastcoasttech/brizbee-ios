@@ -158,10 +158,18 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
         
         let taskNumber = taskNumberTextField.text!
         
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/SearchTasks"
+
+        components.queryItems = [
+            URLQueryItem(name: "taskNumber", value: taskNumber)
+        ]
+        
         // Build the request.
-        let originalString = String(format: "https://app-brizbee-prod.azurewebsites.net/odata/Tasks?$expand=Job($expand=Customer)&$filter=Number eq '%@'", taskNumber)
-        let escapedString = originalString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let url = URL(string: escapedString!)!
+        let url = URL(string: components.string!)!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -181,6 +189,7 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
+                  // TODO handle 404!
                 (200...299).contains(httpResponse.statusCode) else {
                 
                 let responseData = String(data: data!, encoding: String.Encoding.utf8)
@@ -194,35 +203,25 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
             if let responseJSON = responseJSON as? [String: Any] {
                 
                 // Parse the response.
-                if let valueJSON = responseJSON["value"] as? [Any] {
+                self.task = responseJSON
+                
+                DispatchQueue.main.async {
                     
-                    if valueJSON.count == 0 {
+                    // Push confirm.
+                    self.confirmVC!.auth = self.auth
+                    self.confirmVC!.user = self.user
+                    self.confirmVC!.task = self.task
+                    self.confirmVC!.timeZone = self.timeZone
+                    self.confirmVC!.timeZones = self.timeZones
+                    if let navigator = self.navigationController {
                         
-                        // No tasks match the number.
-                        self.handleError(error: "There are no tasks with that number.")
-                    }
-                    
-                    // Task was found.
-                    self.task = valueJSON.first as? [String: Any]
-                    
-                    DispatchQueue.main.async {
+                        // Clear fields now instead of when appearing.
+                        self.taskNumberTextField.text = ""
                         
-                        // Push confirm.
-                        self.confirmVC!.auth = self.auth
-                        self.confirmVC!.user = self.user
-                        self.confirmVC!.task = self.task
-                        self.confirmVC!.timeZone = self.timeZone
-                        self.confirmVC!.timeZones = self.timeZones
-                        if let navigator = self.navigationController {
-                            
-                            // Clear fields now instead of when appearing.
-                            self.taskNumberTextField.text = ""
-                            
-                            // Dismiss loading indicator and then push.
-                            self.loadingVC!.dismiss(animated: true, completion: {
-                                navigator.pushViewController(self.confirmVC!, animated: true)
-                            })
-                        }
+                        // Dismiss loading indicator and then push.
+                        self.loadingVC!.dismiss(animated: true, completion: {
+                            navigator.pushViewController(self.confirmVC!, animated: true)
+                        })
                     }
                 }
             }

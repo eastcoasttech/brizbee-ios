@@ -159,10 +159,18 @@ class InventoryItemViewController: UIViewController, TaskNumberDelegate {
         
         let barCodeValue = barCodeValueTextField.text!
         
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/InventoryItems/Search"
+
+        components.queryItems = [
+            URLQueryItem(name: "barCodeValue", value: barCodeValue)
+        ]
+        
         // Build the request.
-        let originalString = String(format: "https://app-brizbee-prod.azurewebsites.net/api/QBDInventoryItems/Search?barCode=%@", barCodeValue)
-        let escapedString = originalString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let url = URL(string: escapedString!)!
+        let url = URL(string: components.string!)!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

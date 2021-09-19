@@ -135,14 +135,14 @@ class LoginViewController: UIViewController {
         self.present(loadingVC!, animated: true, completion: nil)
         
         // Prepare payload.
-        let json: [String: Any] = ["Session": ["Method": "pin",
-                                               "PinOrganizationCode": emailOrCodeTextField.text!,
-                                               "PinUserPin": passwordOrPinTextField.text!]]
+        let json: [String: Any] = ["Method": "pin",
+                                   "PinOrganizationCode": emailOrCodeTextField.text!,
+                                   "PinUserPin": passwordOrPinTextField.text!]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         // Build the request.
-        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Users/Default.Authenticate")!
+        let url = URL(string: "\(Constants.baseUrl)/api/Auth/Authenticate")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -195,7 +195,7 @@ class LoginViewController: UIViewController {
     
     func loadUser() {
         // Build the request.
-        let url = URL(string: String(format: "https://app-brizbee-prod.azurewebsites.net/odata/Users(%@)", self.auth?.userId ?? ""))!
+        let url = URL(string: "\(Constants.baseUrl)/api/Auth/Me")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -287,7 +287,7 @@ class LoginViewController: UIViewController {
     
     func loadTimeZones() {
         // Build the request.
-        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Organizations/Default.Timezones")!
+        let url = URL(string: "\(Constants.baseUrl)/api/Kiosk/TimeZones")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -317,9 +317,8 @@ class LoginViewController: UIViewController {
             }
             
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
-            if let json = json as? [String: Any] {
-                let valueJSON = json["value"] as? [Any]
-                for item in valueJSON! {
+            if let json = json as? [Any] {
+                for item in json {
                     if let itemJSON = item as? [String: Any] {
                         if let id = itemJSON["Id"] as? String {
                             self.timeZones.append(id)

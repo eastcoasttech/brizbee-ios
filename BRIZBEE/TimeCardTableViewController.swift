@@ -81,24 +81,35 @@ class TimeCardTableViewController: UITableViewController {
             return
         }
         
-        // Prepare payload.
+        // Format the entered date.
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let json: [String: Any] = ["UserId" : self.auth!.userId,
-                                   "TaskId" : self.task!.id,
-                                   "Notes": notesTextView.text!,
-                                   "Minutes": (Int(truncating: hour) * 60) + Int(truncating: minute),
-                                   "EnteredAt": dateFormatter.string(from: datePicker.date)]
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        let enteredAt = dateFormatter.string(from: datePicker.date)
+        
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/Timecard"
+
+        components.queryItems = [
+            URLQueryItem(name: "taskId", value: String(self.task!.id)),
+            URLQueryItem(name: "enteredAt", value: enteredAt),
+            URLQueryItem(name: "minutes", value: String((Int(truncating: hour) * 60) + Int(truncating: minute)))
+        ]
+        
+        // Notes are optional.
+        if (!notesTextView.text!.isEmpty) {
+            components.queryItems?.append(
+                URLQueryItem(name: "notes", value: notesTextView.text!)
+            )
+        }
         
         // Build the request.
-        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/TimesheetEntries")!
+        let url = URL(string: components.string!)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Add payload to the request body.
-        request.httpBody = jsonData
         
         // Set the headers.
         request.addValue(self.auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
@@ -219,8 +230,15 @@ class TimeCardTableViewController: UITableViewController {
     }
     
     func reloadCustomers() {
+        
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/Customers"
+        
         // Build the request.
-        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Customers?$orderby=Number")!
+        let url = URL(string: components.string!)!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -250,8 +268,7 @@ class TimeCardTableViewController: UITableViewController {
             }
             
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
-            if let json = json as? [String: Any] {
-                let valueJSON = json["value"] as? [Any]
+            if let json = json as? [Any] {
                 
                 // Reset the customers, jobs, and tasks
                 self.customers = []
@@ -261,7 +278,7 @@ class TimeCardTableViewController: UITableViewController {
                 self.tasks = []
                 self.task = nil
                 
-                for item in valueJSON! {
+                for item in json {
                     if let itemJSON = item as? [String: Any] {
                         let name = itemJSON["Name"] as? String
                         let id = itemJSON["Id"] as? Int64
@@ -280,16 +297,20 @@ class TimeCardTableViewController: UITableViewController {
     }
     
     func reloadJobs() {
-        // Build the request.
-        let parameters = [
-            "$filter": String(format: "CustomerId eq %i", customer!.id),
-            "$orderby": "Number"
+        
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/Projects"
+
+        components.queryItems = [
+            URLQueryItem(name: "customerId", value: String(customer!.id))
         ]
-        var urlComponents = URLComponents(string: "https://app-brizbee-prod.azurewebsites.net/odata/Jobs")!
-        urlComponents.queryItems = parameters.map({ (key, value) -> URLQueryItem in
-            URLQueryItem(name: key, value: String(value))
-        })
-        var request = URLRequest(url: urlComponents.url!)
+        
+        // Build the request.
+        let url = URL(string: components.string!)!
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -318,8 +339,7 @@ class TimeCardTableViewController: UITableViewController {
             }
             
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
-            if let json = json as? [String: Any] {
-                let valueJSON = json["value"] as? [Any]
+            if let json = json as? [Any] {
                 
                 // Reset the jobs and tasks
                 self.jobs = []
@@ -327,7 +347,7 @@ class TimeCardTableViewController: UITableViewController {
                 self.tasks = []
                 self.task = nil
                 
-                for item in valueJSON! {
+                for item in json {
                     if let itemJSON = item as? [String: Any] {
                         let name = itemJSON["Name"] as? String
                         let id = itemJSON["Id"] as? Int64
@@ -346,16 +366,20 @@ class TimeCardTableViewController: UITableViewController {
     }
     
     func reloadTasks() {
-        // Build the request.
-        let parameters = [
-            "$filter": String(format: "JobId eq %i", job!.id),
-            "$orderby": "Number"
+        
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/Tasks"
+
+        components.queryItems = [
+            URLQueryItem(name: "projectId", value: String(job!.id))
         ]
-        var urlComponents = URLComponents(string: "https://app-brizbee-prod.azurewebsites.net/odata/Tasks")!
-        urlComponents.queryItems = parameters.map({ (key, value) -> URLQueryItem in
-            URLQueryItem(name: key, value: String(value))
-        })
-        var request = URLRequest(url: urlComponents.url!)
+        
+        // Build the request.
+        let url = URL(string: components.string!)!
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -384,14 +408,13 @@ class TimeCardTableViewController: UITableViewController {
             }
             
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
-            if let json = json as? [String: Any] {
-                let valueJSON = json["value"] as? [Any]
+            if let json = json as? [Any] {
                 
                 // Reset the tasks
                 self.tasks = []
                 self.task = nil
                 
-                for item in valueJSON! {
+                for item in json {
                     if let itemJSON = item as? [String: Any] {
                         let name = itemJSON["Name"] as? String
                         let id = itemJSON["Id"] as? Int64

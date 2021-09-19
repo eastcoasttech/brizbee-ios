@@ -20,8 +20,6 @@
 //  along with BRIZBEE Mobile for iOS.
 //  If not, see <https://www.gnu.org/licenses/>.
 //
-//  Created by Joshua Shane Martin on 8/20/19.
-//
 
 import UIKit
 import CoreLocation
@@ -130,26 +128,28 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         self.loadingVC!.modalTransitionStyle = .crossDissolve
         self.present(loadingVC!, animated: true, completion: nil)
         
-        // Prepare payload.
-        let json: [String: Any] = ["SourceHardware": "Mobile",
-                                   "OutAtTimeZone": timeZoneTextField.text!,
-                                   "SourceOperatingSystem": "iOS",
-                                   "SourceOperatingSystemVersion": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String,
-                                   "SourceBrowser": "N/A",
-                                   "SourceBrowserVersion": "N/A",
-                                   "LatitudeForOutAt": latitude,
-                                   "LongitudeForOutAt": longitude]
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        // Build the URL.
+        var components = URLComponents()
+        components.scheme = Constants.scheme
+        components.host = Constants.host
+        components.path = "/api/Kiosk/PunchOut"
+
+        components.queryItems = [
+            URLQueryItem(name: "timeZone", value: timeZoneTextField.text!),
+            URLQueryItem(name: "latitude", value: latitude),
+            URLQueryItem(name: "longitude", value: longitude),
+            URLQueryItem(name: "sourceHardware", value: "Mobile"),
+            URLQueryItem(name: "sourceOperatingSystem", value: "iOS"),
+            URLQueryItem(name: "sourceOperatingSystemVersion", value: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String),
+            URLQueryItem(name: "sourceBrowser", value: "N/A"),
+            URLQueryItem(name: "sourceBrowserVersion", value: "N/A")
+        ]
         
         // Build the request.
-        let url = URL(string: "https://app-brizbee-prod.azurewebsites.net/odata/Punches/Default.PunchOut")!
+        let url = URL(string: components.string!)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Add payload to the request body.
-        request.httpBody = jsonData
         
         // Set the headers.
         request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
