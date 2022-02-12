@@ -29,13 +29,7 @@ class InputViewLabel: UILabel, UIPickerViewDelegate, UIPickerViewDataSource {
     private var _inputView: UIView? {
         get {
             let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: (self.superview?.frame.width)!, height: 300))
-            if #available(iOS 13.0, *) {
-                picker.backgroundColor = .secondarySystemBackground
-            } else {
-                // Dark mode is not applicable
-                picker.backgroundColor = .white
-            }
-            picker.showsSelectionIndicator = true
+            picker.backgroundColor = .secondarySystemBackground
             picker.isUserInteractionEnabled = true
             picker.delegate = self
             picker.dataSource = self

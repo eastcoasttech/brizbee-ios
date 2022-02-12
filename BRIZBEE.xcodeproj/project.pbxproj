@@ -37,6 +37,9 @@
 		1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */; };
 		1CD2B93D2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */; };
 		1CD2FBDD234AEE1D00B5CAF0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2FBDC234AEE1D00B5CAF0 /* User.swift */; };
+		8965D6C4F6A44DD280AD1818 /* Pods_BRIZBEE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240D43933EA370B62246E8C /* Pods_BRIZBEE.framework */; };
+		9FE8DA163F3B41C2953C15F6 /* Pods_BRIZBEETests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79A2306C525C56B97C5EE0D /* Pods_BRIZBEETests.framework */; };
+		DEC1FD0AD3EE62F4B84F1101 /* Pods_BRIZBEEUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB42B13A3C62E201B4F65619 /* Pods_BRIZBEEUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		012D49F6BDBDA8CF133A1082 /* Pods-BRIZBEETests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEETests.debug.xcconfig"; path = "Target Support Files/Pods-BRIZBEETests/Pods-BRIZBEETests.debug.xcconfig"; sourceTree = "<group>"; };
 		1C0BE8482563897200D28377 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		1C0BE84A2563897B00D28377 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 		1C0BE84C2563898100D28377 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -93,6 +97,14 @@
 		1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInConfirmViewController.swift; sourceTree = "<group>"; };
 		1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchOutConfirmViewController.swift; sourceTree = "<group>"; };
 		1CD2FBDC234AEE1D00B5CAF0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2D809CA6AE0A9ECC61A202C5 /* Pods-BRIZBEEUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEEUITests.debug.xcconfig"; path = "Target Support Files/Pods-BRIZBEEUITests/Pods-BRIZBEEUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3A6FE02C8AB6FB185F5022A5 /* Pods-BRIZBEE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEE.release.xcconfig"; path = "Target Support Files/Pods-BRIZBEE/Pods-BRIZBEE.release.xcconfig"; sourceTree = "<group>"; };
+		81B665DF01CB0AF105E12412 /* Pods-BRIZBEETests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEETests.release.xcconfig"; path = "Target Support Files/Pods-BRIZBEETests/Pods-BRIZBEETests.release.xcconfig"; sourceTree = "<group>"; };
+		99542F9C2C1BD5650BC31C5D /* Pods-BRIZBEE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEE.debug.xcconfig"; path = "Target Support Files/Pods-BRIZBEE/Pods-BRIZBEE.debug.xcconfig"; sourceTree = "<group>"; };
+		B79A2306C525C56B97C5EE0D /* Pods_BRIZBEETests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BRIZBEETests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB42B13A3C62E201B4F65619 /* Pods_BRIZBEEUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BRIZBEEUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD253C22B332D0ACBB23EDEB /* Pods-BRIZBEEUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEEUITests.release.xcconfig"; path = "Target Support Files/Pods-BRIZBEEUITests/Pods-BRIZBEEUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E240D43933EA370B62246E8C /* Pods_BRIZBEE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BRIZBEE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8965D6C4F6A44DD280AD1818 /* Pods_BRIZBEE.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FE8DA163F3B41C2953C15F6 /* Pods_BRIZBEETests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,12 +128,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEC1FD0AD3EE62F4B84F1101 /* Pods_BRIZBEEUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16AD4060D895695DFB566920 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				99542F9C2C1BD5650BC31C5D /* Pods-BRIZBEE.debug.xcconfig */,
+				3A6FE02C8AB6FB185F5022A5 /* Pods-BRIZBEE.release.xcconfig */,
+				012D49F6BDBDA8CF133A1082 /* Pods-BRIZBEETests.debug.xcconfig */,
+				81B665DF01CB0AF105E12412 /* Pods-BRIZBEETests.release.xcconfig */,
+				2D809CA6AE0A9ECC61A202C5 /* Pods-BRIZBEEUITests.debug.xcconfig */,
+				CD253C22B332D0ACBB23EDEB /* Pods-BRIZBEEUITests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		1C2434BB230CF69D00231CC2 = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +155,8 @@
 				1C2434DB230CF69F00231CC2 /* BRIZBEETests */,
 				1C2434E6230CF69F00231CC2 /* BRIZBEEUITests */,
 				1C2434C5230CF69D00231CC2 /* Products */,
+				16AD4060D895695DFB566920 /* Pods */,
+				3FCE167102886CB0D4BC44A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,6 +232,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		3FCE167102886CB0D4BC44A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E240D43933EA370B62246E8C /* Pods_BRIZBEE.framework */,
+				B79A2306C525C56B97C5EE0D /* Pods_BRIZBEETests.framework */,
+				CB42B13A3C62E201B4F65619 /* Pods_BRIZBEEUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -209,6 +249,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C2434EC230CF69F00231CC2 /* Build configuration list for PBXNativeTarget "BRIZBEE" */;
 			buildPhases = (
+				9635D6783477CA2F1DFF1B18 /* [CP] Check Pods Manifest.lock */,
 				1C2434C0230CF69D00231CC2 /* Sources */,
 				1C2434C1230CF69D00231CC2 /* Frameworks */,
 				1C2434C2230CF69D00231CC2 /* Resources */,
@@ -226,6 +267,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C2434EF230CF69F00231CC2 /* Build configuration list for PBXNativeTarget "BRIZBEETests" */;
 			buildPhases = (
+				F06E4D0DF8A118F17523875D /* [CP] Check Pods Manifest.lock */,
 				1C2434D4230CF69F00231CC2 /* Sources */,
 				1C2434D5230CF69F00231CC2 /* Frameworks */,
 				1C2434D6230CF69F00231CC2 /* Resources */,
@@ -244,6 +286,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C2434F2230CF69F00231CC2 /* Build configuration list for PBXNativeTarget "BRIZBEEUITests" */;
 			buildPhases = (
+				10AA054E5642AA4802B5AF2C /* [CP] Check Pods Manifest.lock */,
 				1C2434DF230CF69F00231CC2 /* Sources */,
 				1C2434E0230CF69F00231CC2 /* Frameworks */,
 				1C2434E1230CF69F00231CC2 /* Resources */,
@@ -327,6 +370,75 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		10AA054E5642AA4802B5AF2C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BRIZBEEUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9635D6783477CA2F1DFF1B18 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BRIZBEE-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F06E4D0DF8A118F17523875D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BRIZBEETests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C2434C0230CF69D00231CC2 /* Sources */ = {
@@ -532,17 +644,19 @@
 		};
 		1C2434ED230CF69F00231CC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99542F9C2C1BD5650BC31C5D /* Pods-BRIZBEE.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = ZKL4QD94W8;
 				INFOPLIST_FILE = BRIZBEE/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brizbee.ios.BRIZBEE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -552,17 +666,19 @@
 		};
 		1C2434EE230CF69F00231CC2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A6FE02C8AB6FB185F5022A5 /* Pods-BRIZBEE.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = ZKL4QD94W8;
 				INFOPLIST_FILE = BRIZBEE/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brizbee.ios.BRIZBEE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -572,6 +688,7 @@
 		};
 		1C2434F0230CF69F00231CC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 012D49F6BDBDA8CF133A1082 /* Pods-BRIZBEETests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -592,6 +709,7 @@
 		};
 		1C2434F1230CF69F00231CC2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81B665DF01CB0AF105E12412 /* Pods-BRIZBEETests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -612,6 +730,7 @@
 		};
 		1C2434F3230CF69F00231CC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D809CA6AE0A9ECC61A202C5 /* Pods-BRIZBEEUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -631,6 +750,7 @@
 		};
 		1C2434F4230CF69F00231CC2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD253C22B332D0ACBB23EDEB /* Pods-BRIZBEEUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

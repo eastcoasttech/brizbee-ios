@@ -91,14 +91,8 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         
         let picker: UIPickerView
         picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
-        if #available(iOS 13.0, *) {
-            picker.backgroundColor = .secondarySystemBackground
-        } else {
-            // Dark mode is not applicable
-            picker.backgroundColor = .white
-        }
+        picker.backgroundColor = .secondarySystemBackground
 
-        picker.showsSelectionIndicator = true
         picker.delegate = self
         picker.dataSource = self
 
