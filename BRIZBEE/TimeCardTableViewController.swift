@@ -112,9 +112,9 @@ class TimeCardTableViewController: UITableViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(self.auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(self.auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(self.auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -244,9 +244,9 @@ class TimeCardTableViewController: UITableViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -280,9 +280,9 @@ class TimeCardTableViewController: UITableViewController {
                 
                 for item in json {
                     if let itemJSON = item as? [String: Any] {
-                        let name = itemJSON["Name"] as? String
-                        let id = itemJSON["Id"] as? Int64
-                        let number = itemJSON["Number"] as? String
+                        let name = itemJSON["name"] as? String
+                        let id = itemJSON["id"] as? Int64
+                        let number = itemJSON["number"] as? String
                         let customer = Customer(name: name!, id: id!, number: number!)
                         self.customers.append(customer)
                     }
@@ -315,9 +315,9 @@ class TimeCardTableViewController: UITableViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -349,9 +349,9 @@ class TimeCardTableViewController: UITableViewController {
                 
                 for item in json {
                     if let itemJSON = item as? [String: Any] {
-                        let name = itemJSON["Name"] as? String
-                        let id = itemJSON["Id"] as? Int64
-                        let number = itemJSON["Number"] as? String
+                        let name = itemJSON["name"] as? String
+                        let id = itemJSON["id"] as? Int64
+                        let number = itemJSON["number"] as? String
                         let job = Job(name: name!, id: id!, number: number!, customerId: self.customer!.id)
                         self.jobs.append(job)
                     }
@@ -384,9 +384,9 @@ class TimeCardTableViewController: UITableViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -416,9 +416,9 @@ class TimeCardTableViewController: UITableViewController {
                 
                 for item in json {
                     if let itemJSON = item as? [String: Any] {
-                        let name = itemJSON["Name"] as? String
-                        let id = itemJSON["Id"] as? Int64
-                        let number = itemJSON["Number"] as? String
+                        let name = itemJSON["name"] as? String
+                        let id = itemJSON["id"] as? Int64
+                        let number = itemJSON["number"] as? String
                         let task = Task(name: name!, id: id!, number: number!, jobId: self.job!.id)
                         self.tasks.append(task)
                     }

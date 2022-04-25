@@ -1,11 +1,11 @@
 PODS:
-  - AppCenter (4.4.1):
-    - AppCenter/Analytics (= 4.4.1)
-    - AppCenter/Crashes (= 4.4.1)
-  - AppCenter/Analytics (4.4.1):
+  - AppCenter (4.4.2):
+    - AppCenter/Analytics (= 4.4.2)
+    - AppCenter/Crashes (= 4.4.2)
+  - AppCenter/Analytics (4.4.2):
     - AppCenter/Core
-  - AppCenter/Core (4.4.1)
-  - AppCenter/Crashes (4.4.1):
+  - AppCenter/Core (4.4.2)
+  - AppCenter/Crashes (4.4.2):
     - AppCenter/Core
 
 DEPENDENCIES:
@@ -16,7 +16,7 @@ SPEC REPOS:
     - AppCenter
 
 SPEC CHECKSUMS:
-  AppCenter: b0b6f1190215b5f983c42934db718f3b46fff3c0
+  AppCenter: b0eca112a27b71e97488ffa1949ee38c7abd4b79
 
 PODFILE CHECKSUM: ac6d7d4f9e882e63453bcffe4e024072ec76d182
 

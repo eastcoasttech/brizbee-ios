@@ -64,9 +64,9 @@ class StatusStagingViewController: UIViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -109,7 +109,7 @@ class StatusStagingViewController: UIViewController {
                 }
                 
                 // Since
-                let inAt = responseJSON["InAt"] as? String ?? ""
+                let inAt = responseJSON["inAt"] as? String ?? ""
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -125,30 +125,30 @@ class StatusStagingViewController: UIViewController {
                 self.currentSince = humanString
                 
                 // Since Time Zone
-                let inAtTimeZone = responseJSON["InAtTimeZone"] as? String ?? ""
+                let inAtTimeZone = responseJSON["inAtTimeZone"] as? String ?? ""
                 self.currentSinceTimeZone = inAtTimeZone
                 
                 // Use this time zone to punch in or out later
                 self.timeZone = inAtTimeZone
                 
                 // Task
-                let task = responseJSON["Task"] as? [String: Any]
-                let taskNumber = task?["Number"] as? String ?? ""
-                let taskName = task?["Name"] as? String ?? ""
+                let task = responseJSON["task"] as? [String: Any]
+                let taskNumber = task?["number"] as? String ?? ""
+                let taskName = task?["name"] as? String ?? ""
                 let taskString = String(format: "%@ - %@", taskNumber, taskName)
                 self.currentTask = taskString
                 
                 // Job
-                let job = task?["Job"] as? [String: Any]
-                let jobNumber = job?["Number"] as? String ?? ""
-                let jobName = job?["Name"] as? String ?? ""
+                let job = task?["job"] as? [String: Any]
+                let jobNumber = job?["number"] as? String ?? ""
+                let jobName = job?["name"] as? String ?? ""
                 let jobString = String(format: "%@ - %@", jobNumber, jobName)
                 self.currentJob = jobString
                 
                 // Customer
-                let customer = job?["Customer"] as? [String: Any]
-                let customerNumber = customer?["Number"] as? String ?? ""
-                let customerName = customer?["Name"] as? String ?? ""
+                let customer = job?["customer"] as? [String: Any]
+                let customerNumber = customer?["number"] as? String ?? ""
+                let customerName = customer?["name"] as? String ?? ""
                 let customerString = String(format: "%@ - %@", customerNumber, customerName)
                 self.currentCustomer = customerString
                 

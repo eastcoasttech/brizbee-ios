@@ -26,7 +26,7 @@
 import Foundation
 
 struct Constants {
-    static let baseUrl: String = "https://app-brizbee-prod.azurewebsites.net"
-    static let host: String = "app-brizbee-prod.azurewebsites.net"
+    static let baseUrl: String = "https://app-brizbee-api-prod.azurewebsites.net"
+    static let host: String = "app-brizbee-api-prod.azurewebsites.net"
     static let scheme: String = "https"
 }

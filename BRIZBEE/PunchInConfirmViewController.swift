@@ -54,22 +54,22 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         navigationItem.hidesBackButton = true
         
         // Set the task
-        let taskNumber = task?["Number"] as? String ?? ""
-        let taskName = task?["Name"] as? String ?? ""
+        let taskNumber = task?["number"] as? String ?? ""
+        let taskName = task?["name"] as? String ?? ""
         let taskString = String(format: "%@ - %@", taskNumber, taskName)
         self.taskLabel.text = taskString
         
         // Set the job
-        let job = task?["Job"] as? [String: Any]
-        let jobNumber = job?["Number"] as? String ?? ""
-        let jobName = job?["Name"] as? String ?? ""
+        let job = task?["job"] as? [String: Any]
+        let jobNumber = job?["number"] as? String ?? ""
+        let jobName = job?["name"] as? String ?? ""
         let jobString = String(format: "%@ - %@", jobNumber, jobName)
         self.jobLabel.text = jobString
         
         // Set the customer
-        let customer = job?["Customer"] as? [String: Any]
-        let customerNumber = customer?["Number"] as? String ?? ""
-        let customerName = customer?["Name"] as? String ?? ""
+        let customer = job?["customer"] as? [String: Any]
+        let customerNumber = customer?["number"] as? String ?? ""
+        let customerName = customer?["name"] as? String ?? ""
         let customerString = String(format: "%@ - %@", customerNumber, customerName)
         self.customerLabel.text = customerString
     }
@@ -159,7 +159,7 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         components.path = "/api/Kiosk/PunchIn"
 
         components.queryItems = [
-            URLQueryItem(name: "taskId", value: String(self.task?["Id"] as! Int64)),
+            URLQueryItem(name: "taskId", value: String(self.task?["id"] as! Int64)),
             URLQueryItem(name: "timeZone", value: timeZoneTextField.text!),
             URLQueryItem(name: "latitude", value: latitude),
             URLQueryItem(name: "longitude", value: longitude),
@@ -180,9 +180,9 @@ class PunchInConfirmViewController: UIViewController, UIPickerViewDelegate, UIPi
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(self.auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(self.auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(self.auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

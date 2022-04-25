@@ -145,9 +145,9 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

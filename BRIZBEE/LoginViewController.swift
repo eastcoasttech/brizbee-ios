@@ -177,10 +177,8 @@ class LoginViewController: UIViewController {
             if let json = json as? [String: Any] {
                 
                 // Parse JSON for authentication headers.
-                let token = json["AuthToken"] as? String ?? ""
-                let expiration = json["AuthExpiration"] as? String ?? ""
-                let userId = json["AuthUserId"] as? String ?? ""
-                self.auth = Auth(token: token, userId: userId, expiration: expiration)
+                let token = json["token"] as? String ?? ""
+                self.auth = Auth(token: token)
                 
                 // Load the time zones.
                 self.loadTimeZones()
@@ -201,9 +199,9 @@ class LoginViewController: UIViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -228,12 +226,12 @@ class LoginViewController: UIViewController {
             if let json = json as? [String: Any] {
                 
                 // Parse the response.
-                let nameString = json["Name"] as? String ?? ""
-                let emailString = json["EmailAddress"] as? String ?? ""
-                let idString = json["Id"] as? String ?? ""
-                let timeZoneString = json["TimeZone"] as? String ?? ""
-                let usesTimeCards = json["UsesTimesheets"] as? Bool ?? false
-                let usesMobileApp = json["UsesMobileClock"] as? Bool ?? false
+                let nameString = json["name"] as? String ?? ""
+                let emailString = json["emailAddress"] as? String ?? ""
+                let idString = json["id"] as? String ?? ""
+                let timeZoneString = json["timeZone"] as? String ?? ""
+                let usesTimeCards = json["usesTimesheets"] as? Bool ?? false
+                let usesMobileApp = json["usesMobileClock"] as? Bool ?? false
                 self.user = User(name: nameString,
                                  emailAddress: emailString,
                                  id: idString,
@@ -293,9 +291,9 @@ class LoginViewController: UIViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
         
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -320,7 +318,7 @@ class LoginViewController: UIViewController {
             if let json = json as? [Any] {
                 for item in json {
                     if let itemJSON = item as? [String: Any] {
-                        if let id = itemJSON["Id"] as? String {
+                        if let id = itemJSON["id"] as? String {
                             self.timeZones.append(id)
                         }
                     }

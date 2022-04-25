@@ -27,6 +27,4 @@ import Foundation
 
 struct Auth {
     let token: String
-    let userId: String
-    let expiration: String
 }

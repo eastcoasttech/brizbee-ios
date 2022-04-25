@@ -176,9 +176,9 @@ class InventoryItemViewController: UIViewController, TaskNumberDelegate {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         // Set the headers.
-        request.addValue(auth?.token ?? "", forHTTPHeaderField: "AUTH_TOKEN")
-        request.addValue(auth?.userId ?? "", forHTTPHeaderField: "AUTH_USER_ID")
-        request.addValue(auth?.expiration ?? "", forHTTPHeaderField: "AUTH_EXPIRATION")
+        if auth != nil {
+            request.addValue("Bearer \(auth!.token)", forHTTPHeaderField: "Authorization")
+        }
 
         // Send the request.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -207,16 +207,16 @@ class InventoryItemViewController: UIViewController, TaskNumberDelegate {
             if let responseJSON = responseJSON as? [String: Any] {
                 
                 // Parse the response.
-                let idInt = responseJSON["Id"] as? Int64 ?? 0
-                let fullNameString = responseJSON["FullName"] as? String ?? ""
-                let barCodeValueString = responseJSON["BarCodeValue"] as? String ?? ""
-                let listIdString = responseJSON["ListId"] as? String ?? ""
-                let nameString = responseJSON["Name"] as? String ?? ""
-                let manufacturerPartNumberString = responseJSON["ManufacturerPartNumber"] as? String ?? ""
-                let purchaseCostString = responseJSON["PurchaseCost"] as? String ?? ""
-                let purchaseDescriptionString = responseJSON["PurchaseDescription"] as? String ?? ""
-                let salesPriceString = responseJSON["SalesPrice"] as? String ?? ""
-                let salesDescriptionString = responseJSON["SalesDescription"] as? String ?? ""
+                let idInt = responseJSON["id"] as? Int64 ?? 0
+                let fullNameString = responseJSON["fullName"] as? String ?? ""
+                let barCodeValueString = responseJSON["barCodeValue"] as? String ?? ""
+                let listIdString = responseJSON["listId"] as? String ?? ""
+                let nameString = responseJSON["name"] as? String ?? ""
+                let manufacturerPartNumberString = responseJSON["manufacturerPartNumber"] as? String ?? ""
+                let purchaseCostString = responseJSON["purchaseCost"] as? String ?? ""
+                let purchaseDescriptionString = responseJSON["purchaseDescription"] as? String ?? ""
+                let salesPriceString = responseJSON["salesPrice"] as? String ?? ""
+                let salesDescriptionString = responseJSON["salesDescription"] as? String ?? ""
                 
                 self.inventoryItem = QBDInventoryItem(id: idInt, fullName: fullNameString, barCodeValue: barCodeValueString, listId: listIdString, name: nameString, manufacturerPartNumber: manufacturerPartNumberString, purchaseCost: purchaseCostString, purchaseDescription: purchaseDescriptionString, salesPrice: salesPriceString, salesDescription: salesDescriptionString)
                 
