@@ -153,10 +153,20 @@ class ScanBarCodeViewController: UIViewController, AVCaptureMetadataOutputObject
             if metadataObj.stringValue != nil {
                 if (!captured)
                 {
-                    let taskNumber = metadataObj.stringValue
+                    var taskNumber = metadataObj.stringValue ?? ""
+                    
+                    // Apple converts every UPC-A barcode to EAN13 just by adding a leading zero
+                    if metadataObj.type == AVMetadataObject.ObjectType.ean13 {
+                        if taskNumber.hasPrefix("0") && taskNumber.isEmpty == false {
+                            if let index = taskNumber.firstIndex(of: "0") {
+                                taskNumber = String(taskNumber.suffix(from: index))
+                            }
+                        }
+                    }
+                    
                     captured = true
                     if let navigator = self.navigationController {
-                        self.taskNumberDelegate?.taskNumber(taskNumber: taskNumber ?? "")
+                        self.taskNumberDelegate?.taskNumber(taskNumber: taskNumber)
                         navigator.popViewController(animated: true)
                     }
                 }
