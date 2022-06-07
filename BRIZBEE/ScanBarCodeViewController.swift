@@ -148,27 +148,20 @@ class ScanBarCodeViewController: UIViewController, AVCaptureMetadataOutputObject
             // If the found metadata is equal to the Code128 code metadata then set the bounds
             let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             barCodeFrameView?.frame = barCodeObject!.bounds
-
-            // Take the user back to the task number view
-            if metadataObj.stringValue != nil {
-                if (!captured)
-                {
-                    var taskNumber = metadataObj.stringValue ?? ""
-                    
-                    // Apple converts every UPC-A barcode to EAN13 just by adding a leading zero
-                    if metadataObj.type == AVMetadataObject.ObjectType.ean13 {
-                        if taskNumber.hasPrefix("0") && taskNumber.isEmpty == false {
-                            if let index = taskNumber.firstIndex(of: "0") {
-                                taskNumber = String(taskNumber.suffix(from: index))
-                            }
-                        }
-                    }
-                    
-                    captured = true
-                    if let navigator = self.navigationController {
-                        self.taskNumberDelegate?.taskNumber(taskNumber: taskNumber)
-                        navigator.popViewController(animated: true)
-                    }
+            
+            guard var stringValue = metadataObj.stringValue else { return }
+            
+            // Apple converts every UPC-A barcode to EAN13 just by adding a leading zero
+            if metadataObj.type == AVMetadataObject.ObjectType.ean13 && stringValue.hasPrefix("0"){
+                let index = stringValue.index(stringValue.startIndex, offsetBy: 1)
+                stringValue = String(stringValue[index...])
+            }
+            
+            if (!captured) {
+                captured = true
+                if let navigator = self.navigationController {
+                    self.taskNumberDelegate?.taskNumber(taskNumber: stringValue)
+                    navigator.popViewController(animated: true)
                 }
             }
         }
