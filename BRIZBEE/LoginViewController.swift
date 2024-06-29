@@ -30,7 +30,6 @@ class LoginViewController: UIViewController {
     var auth: Auth?
     var timeZones: [String] = []
     var loadingVC: LoadingViewController?
-    var stagingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status Staging View Controller") as? StatusStagingViewController
     
     @IBOutlet weak var emailOrCodeTextField: UITextField!
     @IBOutlet weak var passwordOrPinTextField: UITextField!
@@ -42,6 +41,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Programmatically set the font size of the segmented control for iPad.
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let font = UIFont.systemFont(ofSize: 20)
+            segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+        }
         
         // Adjust scroll position depending on if the keyboard covers the active UIView
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -259,21 +264,30 @@ class LoginViewController: UIViewController {
                 }
                 
                 // Push staging view controller.
-                self.stagingVC!.auth = self.auth
-                self.stagingVC!.user = self.user
-                self.stagingVC!.timeZones = self.timeZones
+                let stagingVC: StatusStagingViewController?
+                
+                switch UIDevice.current.userInterfaceIdiom {
+                    case .pad:
+                        stagingVC = UIStoryboard(name: "Main iPad", bundle: nil).instantiateViewController(withIdentifier: "Status Staging View Controller") as? StatusStagingViewController
+                    default:
+                        stagingVC = UIStoryboard(name: "Main iPhone", bundle: nil).instantiateViewController(withIdentifier: "Status Staging View Controller") as? StatusStagingViewController
+                }
+                
+                stagingVC!.auth = self.auth
+                stagingVC!.user = self.user
+                stagingVC!.timeZones = self.timeZones
                 
                 DispatchQueue.main.async {
                     
                     if let navigator = self.navigationController {
                         
-                        // Clear fields.
-                        self.emailOrCodeTextField.text = ""
-                        self.passwordOrPinTextField.text = ""
-                        
                         // Dismiss loading indicator and then push.
                         self.loadingVC!.dismiss(animated: true, completion: {
-                            navigator.pushViewController(self.stagingVC!, animated: true)
+                            navigator.pushViewController(stagingVC!, animated: true)
+                            
+                            // Clear fields.
+                            self.emailOrCodeTextField.text = ""
+                            self.passwordOrPinTextField.text = ""
                         })
                     }
                 }

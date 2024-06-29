@@ -33,7 +33,6 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
     var timeZone: String?
     var user: User?
     var loadingVC: LoadingViewController?
-    var confirmVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Punch In Confirm View Controller") as? PunchInConfirmViewController
     
     @IBOutlet weak var scanButton: UIButton!
     @IBOutlet weak var continueButton: UIButton!
@@ -207,12 +206,21 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
                 
                 DispatchQueue.main.async {
                     
-                    // Push confirm.
-                    self.confirmVC!.auth = self.auth
-                    self.confirmVC!.user = self.user
-                    self.confirmVC!.task = self.task
-                    self.confirmVC!.timeZone = self.timeZone
-                    self.confirmVC!.timeZones = self.timeZones
+                    // Push confirm view controller.
+                    let confirmVC: PunchInConfirmViewController?
+                    
+                    switch UIDevice.current.userInterfaceIdiom {
+                        case .pad:
+                        confirmVC = UIStoryboard(name: "Main iPad", bundle: nil).instantiateViewController(withIdentifier: "Punch In Confirm View Controller") as? PunchInConfirmViewController
+                        default:
+                        confirmVC = UIStoryboard(name: "Main iPhone", bundle: nil).instantiateViewController(withIdentifier: "Punch In Confirm View Controller") as? PunchInConfirmViewController
+                    }
+                    
+                    confirmVC!.auth = self.auth
+                    confirmVC!.user = self.user
+                    confirmVC!.task = self.task
+                    confirmVC!.timeZone = self.timeZone
+                    confirmVC!.timeZones = self.timeZones
                     if let navigator = self.navigationController {
                         
                         // Clear fields now instead of when appearing.
@@ -220,7 +228,7 @@ class PunchInTaskIdViewController: UIViewController, TaskNumberDelegate {
                         
                         // Dismiss loading indicator and then push.
                         self.loadingVC!.dismiss(animated: true, completion: {
-                            navigator.pushViewController(self.confirmVC!, animated: true)
+                            navigator.pushViewController(confirmVC!, animated: true)
                         })
                     }
                 }

@@ -24,25 +24,14 @@
 //
 
 import UIKit
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        #if !DEBUG
-            AppCenter.start(withAppSecret: "REPLACE WITH VISUAL STUDIO APP CENTER SECRET", services:[
-                Analytics.self,
-                Crashes.self
-            ])
-        #endif
         
         return true
     }

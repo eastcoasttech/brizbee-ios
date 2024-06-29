@@ -35,10 +35,6 @@ class StatusStagingViewController: UIViewController {
     var currentCustomer: String?
     var currentSince: String?
     var currentSinceTimeZone: String?
-    var statusOutVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status Out View Controller") as? StatusOutViewController
-    var statusInVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Status In View Controller") as? StatusInViewController
-    
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -95,13 +91,22 @@ class StatusStagingViewController: UIViewController {
                     
                     DispatchQueue.main.async {
                         
-                        // User is punched out and will be pushed to status out.
-                        self.statusOutVC!.auth = self.auth
-                        self.statusOutVC!.user = self.user
-                        self.statusOutVC!.timeZone = self.timeZone
-                        self.statusOutVC!.timeZones = self.timeZones
+                        // User is punched out and will be pushed to status out view controller.
+                        let statusOutVC: StatusOutViewController?
+                        
+                        switch UIDevice.current.userInterfaceIdiom {
+                            case .pad:
+                            statusOutVC = UIStoryboard(name: "Main iPad", bundle: nil).instantiateViewController(withIdentifier: "Status Out View Controller") as? StatusOutViewController
+                            default:
+                            statusOutVC = UIStoryboard(name: "Main iPhone", bundle: nil).instantiateViewController(withIdentifier: "Status Out View Controller") as? StatusOutViewController
+                        }
+                        
+                        statusOutVC!.auth = self.auth
+                        statusOutVC!.user = self.user
+                        statusOutVC!.timeZone = self.timeZone
+                        statusOutVC!.timeZones = self.timeZones
                         if let navigator = self.navigationController {
-                            navigator.pushViewController(self.statusOutVC!, animated: true)
+                            navigator.pushViewController(statusOutVC!, animated: true)
                         }
                     }
                     
@@ -154,18 +159,27 @@ class StatusStagingViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     
-                    // User is punched in and will be pushed to status in.
-                    self.statusInVC!.auth = self.auth
-                    self.statusInVC!.user = self.user
-                    self.statusInVC!.timeZone = self.timeZone
-                    self.statusInVC!.timeZones = self.timeZones
-                    self.statusInVC!.currentSince = self.currentSince
-                    self.statusInVC!.currentSinceTimeZone = self.currentSinceTimeZone
-                    self.statusInVC!.currentTask = self.currentTask
-                    self.statusInVC!.currentJob = self.currentJob
-                    self.statusInVC!.currentCustomer = self.currentCustomer
+                    // User is punched in and will be pushed to status in view controller.
+                    let statusInVC: StatusInViewController?
+                    
+                    switch UIDevice.current.userInterfaceIdiom {
+                        case .pad:
+                        statusInVC = UIStoryboard(name: "Main iPad", bundle: nil).instantiateViewController(withIdentifier: "Status In View Controller") as? StatusInViewController
+                        default:
+                        statusInVC = UIStoryboard(name: "Main iPhone", bundle: nil).instantiateViewController(withIdentifier: "Status In View Controller") as? StatusInViewController
+                    }
+                    
+                    statusInVC!.auth = self.auth
+                    statusInVC!.user = self.user
+                    statusInVC!.timeZone = self.timeZone
+                    statusInVC!.timeZones = self.timeZones
+                    statusInVC!.currentSince = self.currentSince
+                    statusInVC!.currentSinceTimeZone = self.currentSinceTimeZone
+                    statusInVC!.currentTask = self.currentTask
+                    statusInVC!.currentJob = self.currentJob
+                    statusInVC!.currentCustomer = self.currentCustomer
                     if let navigator = self.navigationController {
-                        navigator.pushViewController(self.statusInVC!, animated: true)
+                        navigator.pushViewController(statusInVC!, animated: true)
                     }
                 }
             }

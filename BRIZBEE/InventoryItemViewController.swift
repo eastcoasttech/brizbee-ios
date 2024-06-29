@@ -30,7 +30,6 @@ class InventoryItemViewController: UIViewController, TaskNumberDelegate {
     var user: User?
     var inventoryItem: QBDInventoryItem?
     var loadingVC: LoadingViewController?
-    var quantityVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Inventory Quantity View Controller") as? InventoryQuantityViewController
     
     @IBOutlet weak var barCodeValueTextField: UITextField!
     @IBOutlet weak var scanButton: UIButton!
@@ -222,10 +221,19 @@ class InventoryItemViewController: UIViewController, TaskNumberDelegate {
                 
                 DispatchQueue.main.async {
                     
-                    // Push quantity.
-                    self.quantityVC!.auth = self.auth
-                    self.quantityVC!.user = self.user
-                    self.quantityVC!.inventoryItem = self.inventoryItem
+                    // Push quantity view controller.
+                    let quantityVC: InventoryQuantityViewController?
+                    
+                    switch UIDevice.current.userInterfaceIdiom {
+                        case .pad:
+                        quantityVC = UIStoryboard(name: "Main iPad", bundle: nil).instantiateViewController(withIdentifier: "Inventory Quantity View Controller") as? InventoryQuantityViewController
+                        default:
+                        quantityVC = UIStoryboard(name: "Main iPhone", bundle: nil).instantiateViewController(withIdentifier: "Inventory Quantity View Controller") as? InventoryQuantityViewController
+                    }
+                    
+                    quantityVC!.auth = self.auth
+                    quantityVC!.user = self.user
+                    quantityVC!.inventoryItem = self.inventoryItem
                     if let navigator = self.navigationController {
                         
                         // Clear fields now instead of when appearing.
@@ -233,7 +241,7 @@ class InventoryItemViewController: UIViewController, TaskNumberDelegate {
                         
                         // Dismiss loading indicator and then push.
                         self.loadingVC!.dismiss(animated: true, completion: {
-                            navigator.pushViewController(self.quantityVC!, animated: true)
+                            navigator.pushViewController(quantityVC!, animated: true)
                         })
                     }
                 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,7 +17,7 @@
 		1C215F0F269C99C5003E87C1 /* InventoryConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C215F0E269C99C5003E87C1 /* InventoryConfirmViewController.swift */; };
 		1C2434C8230CF69D00231CC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C7230CF69D00231CC2 /* AppDelegate.swift */; };
 		1C2434CA230CF69D00231CC2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434C9230CF69D00231CC2 /* LoginViewController.swift */; };
-		1C2434CD230CF69D00231CC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434CB230CF69D00231CC2 /* Main.storyboard */; };
+		1C2434CD230CF69D00231CC2 /* Main iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434CB230CF69D00231CC2 /* Main iPhone.storyboard */; };
 		1C2434CF230CF69F00231CC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434CE230CF69F00231CC2 /* Assets.xcassets */; };
 		1C2434D2230CF69F00231CC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C2434D0230CF69F00231CC2 /* LaunchScreen.storyboard */; };
 		1C2434DD230CF69F00231CC2 /* BRIZBEETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2434DC230CF69F00231CC2 /* BRIZBEETests.swift */; };
@@ -37,9 +37,7 @@
 		1CD2B93B2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */; };
 		1CD2B93D2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */; };
 		1CD2FBDD234AEE1D00B5CAF0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2FBDC234AEE1D00B5CAF0 /* User.swift */; };
-		8965D6C4F6A44DD280AD1818 /* Pods_BRIZBEE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240D43933EA370B62246E8C /* Pods_BRIZBEE.framework */; };
-		9FE8DA163F3B41C2953C15F6 /* Pods_BRIZBEETests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79A2306C525C56B97C5EE0D /* Pods_BRIZBEETests.framework */; };
-		DEC1FD0AD3EE62F4B84F1101 /* Pods_BRIZBEEUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB42B13A3C62E201B4F65619 /* Pods_BRIZBEEUITests.framework */; };
+		1CE375022C2F3AC3007869F8 /* Main iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CE375012C2F3AC3007869F8 /* Main iPad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +58,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		012D49F6BDBDA8CF133A1082 /* Pods-BRIZBEETests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEETests.debug.xcconfig"; path = "Target Support Files/Pods-BRIZBEETests/Pods-BRIZBEETests.debug.xcconfig"; sourceTree = "<group>"; };
 		1C0BE8482563897200D28377 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		1C0BE84A2563897B00D28377 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 		1C0BE84C2563898100D28377 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -72,7 +69,7 @@
 		1C2434C4230CF69D00231CC2 /* BRIZBEE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BRIZBEE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C2434C7230CF69D00231CC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C2434C9230CF69D00231CC2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		1C2434CC230CF69D00231CC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1C2434CC230CF69D00231CC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Main iPhone.storyboard"; sourceTree = "<group>"; };
 		1C2434CE230CF69F00231CC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C2434D1230CF69F00231CC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C2434D3230CF69F00231CC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,14 +94,7 @@
 		1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInConfirmViewController.swift; sourceTree = "<group>"; };
 		1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchOutConfirmViewController.swift; sourceTree = "<group>"; };
 		1CD2FBDC234AEE1D00B5CAF0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		2D809CA6AE0A9ECC61A202C5 /* Pods-BRIZBEEUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEEUITests.debug.xcconfig"; path = "Target Support Files/Pods-BRIZBEEUITests/Pods-BRIZBEEUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		3A6FE02C8AB6FB185F5022A5 /* Pods-BRIZBEE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEE.release.xcconfig"; path = "Target Support Files/Pods-BRIZBEE/Pods-BRIZBEE.release.xcconfig"; sourceTree = "<group>"; };
-		81B665DF01CB0AF105E12412 /* Pods-BRIZBEETests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEETests.release.xcconfig"; path = "Target Support Files/Pods-BRIZBEETests/Pods-BRIZBEETests.release.xcconfig"; sourceTree = "<group>"; };
-		99542F9C2C1BD5650BC31C5D /* Pods-BRIZBEE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEE.debug.xcconfig"; path = "Target Support Files/Pods-BRIZBEE/Pods-BRIZBEE.debug.xcconfig"; sourceTree = "<group>"; };
-		B79A2306C525C56B97C5EE0D /* Pods_BRIZBEETests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BRIZBEETests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CB42B13A3C62E201B4F65619 /* Pods_BRIZBEEUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BRIZBEEUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD253C22B332D0ACBB23EDEB /* Pods-BRIZBEEUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRIZBEEUITests.release.xcconfig"; path = "Target Support Files/Pods-BRIZBEEUITests/Pods-BRIZBEEUITests.release.xcconfig"; sourceTree = "<group>"; };
-		E240D43933EA370B62246E8C /* Pods_BRIZBEE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BRIZBEE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CE375002C2F3AC3007869F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Main iPad.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +102,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8965D6C4F6A44DD280AD1818 /* Pods_BRIZBEE.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,7 +109,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FE8DA163F3B41C2953C15F6 /* Pods_BRIZBEETests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,26 +116,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEC1FD0AD3EE62F4B84F1101 /* Pods_BRIZBEEUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		16AD4060D895695DFB566920 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				99542F9C2C1BD5650BC31C5D /* Pods-BRIZBEE.debug.xcconfig */,
-				3A6FE02C8AB6FB185F5022A5 /* Pods-BRIZBEE.release.xcconfig */,
-				012D49F6BDBDA8CF133A1082 /* Pods-BRIZBEETests.debug.xcconfig */,
-				81B665DF01CB0AF105E12412 /* Pods-BRIZBEETests.release.xcconfig */,
-				2D809CA6AE0A9ECC61A202C5 /* Pods-BRIZBEEUITests.debug.xcconfig */,
-				CD253C22B332D0ACBB23EDEB /* Pods-BRIZBEEUITests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		1C2434BB230CF69D00231CC2 = {
 			isa = PBXGroup;
 			children = (
@@ -155,8 +129,6 @@
 				1C2434DB230CF69F00231CC2 /* BRIZBEETests */,
 				1C2434E6230CF69F00231CC2 /* BRIZBEEUITests */,
 				1C2434C5230CF69D00231CC2 /* Products */,
-				16AD4060D895695DFB566920 /* Pods */,
-				3FCE167102886CB0D4BC44A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,7 +153,8 @@
 				1C2434D3230CF69F00231CC2 /* Info.plist */,
 				1C2434D0230CF69F00231CC2 /* LaunchScreen.storyboard */,
 				1C2434C9230CF69D00231CC2 /* LoginViewController.swift */,
-				1C2434CB230CF69D00231CC2 /* Main.storyboard */,
+				1CE375012C2F3AC3007869F8 /* Main iPad.storyboard */,
+				1C2434CB230CF69D00231CC2 /* Main iPhone.storyboard */,
 				1CD2B93A2325DEAE00B2B0D8 /* PunchInConfirmViewController.swift */,
 				1CD2B9382325DE2100B2B0D8 /* PunchInTaskIdViewController.swift */,
 				1CD2B93C2325DEFC00B2B0D8 /* PunchOutConfirmViewController.swift */,
@@ -232,16 +205,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		3FCE167102886CB0D4BC44A0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E240D43933EA370B62246E8C /* Pods_BRIZBEE.framework */,
-				B79A2306C525C56B97C5EE0D /* Pods_BRIZBEETests.framework */,
-				CB42B13A3C62E201B4F65619 /* Pods_BRIZBEEUITests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -249,7 +212,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C2434EC230CF69F00231CC2 /* Build configuration list for PBXNativeTarget "BRIZBEE" */;
 			buildPhases = (
-				9635D6783477CA2F1DFF1B18 /* [CP] Check Pods Manifest.lock */,
 				1C2434C0230CF69D00231CC2 /* Sources */,
 				1C2434C1230CF69D00231CC2 /* Frameworks */,
 				1C2434C2230CF69D00231CC2 /* Resources */,
@@ -267,7 +229,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C2434EF230CF69F00231CC2 /* Build configuration list for PBXNativeTarget "BRIZBEETests" */;
 			buildPhases = (
-				F06E4D0DF8A118F17523875D /* [CP] Check Pods Manifest.lock */,
 				1C2434D4230CF69F00231CC2 /* Sources */,
 				1C2434D5230CF69F00231CC2 /* Frameworks */,
 				1C2434D6230CF69F00231CC2 /* Resources */,
@@ -286,7 +247,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C2434F2230CF69F00231CC2 /* Build configuration list for PBXNativeTarget "BRIZBEEUITests" */;
 			buildPhases = (
-				10AA054E5642AA4802B5AF2C /* [CP] Check Pods Manifest.lock */,
 				1C2434DF230CF69F00231CC2 /* Sources */,
 				1C2434E0230CF69F00231CC2 /* Frameworks */,
 				1C2434E1230CF69F00231CC2 /* Resources */,
@@ -307,8 +267,9 @@
 		1C2434BC230CF69D00231CC2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = "East Coast Technology Services, LLC";
 				TargetAttributes = {
 					1C2434C3230CF69D00231CC2 = {
@@ -351,7 +312,8 @@
 			files = (
 				1C2434D2230CF69F00231CC2 /* LaunchScreen.storyboard in Resources */,
 				1C2434CF230CF69F00231CC2 /* Assets.xcassets in Resources */,
-				1C2434CD230CF69D00231CC2 /* Main.storyboard in Resources */,
+				1CE375022C2F3AC3007869F8 /* Main iPad.storyboard in Resources */,
+				1C2434CD230CF69D00231CC2 /* Main iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,75 +332,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		10AA054E5642AA4802B5AF2C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BRIZBEEUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9635D6783477CA2F1DFF1B18 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BRIZBEE-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F06E4D0DF8A118F17523875D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BRIZBEETests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C2434C0230CF69D00231CC2 /* Sources */ = {
@@ -505,12 +398,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1C2434CB230CF69D00231CC2 /* Main.storyboard */ = {
+		1C2434CB230CF69D00231CC2 /* Main iPhone.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1C2434CC230CF69D00231CC2 /* Base */,
 			);
-			name = Main.storyboard;
+			name = "Main iPhone.storyboard";
 			sourceTree = "<group>";
 		};
 		1C2434D0230CF69F00231CC2 /* LaunchScreen.storyboard */ = {
@@ -519,6 +412,14 @@
 				1C2434D1230CF69F00231CC2 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1CE375012C2F3AC3007869F8 /* Main iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1CE375002C2F3AC3007869F8 /* Base */,
+			);
+			name = "Main iPad.storyboard";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -562,6 +463,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -576,7 +478,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -624,6 +526,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -632,7 +535,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -644,11 +547,10 @@
 		};
 		1C2434ED230CF69F00231CC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 99542F9C2C1BD5650BC31C5D /* Pods-BRIZBEE.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = ZKL4QD94W8;
 				INFOPLIST_FILE = BRIZBEE/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
@@ -656,7 +558,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.4;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brizbee.ios.BRIZBEE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -666,11 +568,10 @@
 		};
 		1C2434EE230CF69F00231CC2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A6FE02C8AB6FB185F5022A5 /* Pods-BRIZBEE.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = ZKL4QD94W8;
 				INFOPLIST_FILE = BRIZBEE/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
@@ -678,7 +579,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.4;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brizbee.ios.BRIZBEE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -688,7 +589,6 @@
 		};
 		1C2434F0230CF69F00231CC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 012D49F6BDBDA8CF133A1082 /* Pods-BRIZBEETests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -709,7 +609,6 @@
 		};
 		1C2434F1230CF69F00231CC2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 81B665DF01CB0AF105E12412 /* Pods-BRIZBEETests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -730,7 +629,6 @@
 		};
 		1C2434F3230CF69F00231CC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D809CA6AE0A9ECC61A202C5 /* Pods-BRIZBEEUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -750,7 +648,6 @@
 		};
 		1C2434F4230CF69F00231CC2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD253C22B332D0ACBB23EDEB /* Pods-BRIZBEEUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

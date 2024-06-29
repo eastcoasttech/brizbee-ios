@@ -29,7 +29,6 @@ class InventoryQuantityViewController: UIViewController {
     var auth: Auth?
     var user: User?
     var inventoryItem: QBDInventoryItem?
-    var confirmVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Inventory Confirm View Controller") as? InventoryConfirmViewController
     
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
@@ -115,13 +114,22 @@ class InventoryQuantityViewController: UIViewController {
         
         let quantity = Int(self.quantityTextField.text!) ?? 0
         
-        // Push confirm.
-        self.confirmVC!.auth = self.auth
-        self.confirmVC!.user = self.user
-        self.confirmVC!.inventoryItem = self.inventoryItem
-        self.confirmVC!.quantity = quantity
+        // Push confirm view controller.
+        let confirmVC: InventoryConfirmViewController?
+        
+        switch UIDevice.current.userInterfaceIdiom {
+            case .pad:
+            confirmVC = UIStoryboard(name: "Main iPad", bundle: nil).instantiateViewController(withIdentifier: "Inventory Confirm View Controller") as? InventoryConfirmViewController
+            default:
+            confirmVC = UIStoryboard(name: "Main iPhone", bundle: nil).instantiateViewController(withIdentifier: "Inventory Confirm View Controller") as? InventoryConfirmViewController
+        }
+    
+        confirmVC!.auth = self.auth
+        confirmVC!.user = self.user
+        confirmVC!.inventoryItem = self.inventoryItem
+        confirmVC!.quantity = quantity
         if let navigator = self.navigationController {
-            navigator.pushViewController(self.confirmVC!, animated: true)
+            navigator.pushViewController(confirmVC!, animated: true)
         }
     }
     
