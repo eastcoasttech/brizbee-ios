@@ -127,37 +127,37 @@ class StatusStagingViewController: UIViewController {
                 humanFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
                 let humanString = humanFormatter.string(from: date)
                 
-                self.currentSince = humanString
                 
                 // Since Time Zone
                 let inAtTimeZone = responseJSON["inAtTimeZone"] as? String ?? ""
-                self.currentSinceTimeZone = inAtTimeZone
-                
-                // Use this time zone to punch in or out later
-                self.timeZone = inAtTimeZone
                 
                 // Task
                 let task = responseJSON["task"] as? [String: Any]
                 let taskNumber = task?["number"] as? String ?? ""
                 let taskName = task?["name"] as? String ?? ""
                 let taskString = String(format: "%@ - %@", taskNumber, taskName)
-                self.currentTask = taskString
                 
                 // Job
                 let job = task?["job"] as? [String: Any]
                 let jobNumber = job?["number"] as? String ?? ""
                 let jobName = job?["name"] as? String ?? ""
                 let jobString = String(format: "%@ - %@", jobNumber, jobName)
-                self.currentJob = jobString
                 
                 // Customer
                 let customer = job?["customer"] as? [String: Any]
                 let customerNumber = customer?["number"] as? String ?? ""
                 let customerName = customer?["name"] as? String ?? ""
                 let customerString = String(format: "%@ - %@", customerNumber, customerName)
-                self.currentCustomer = customerString
                 
                 DispatchQueue.main.async {
+                    
+                    // Update user interface on the main thread.
+                    self.currentSince = humanString
+                    self.currentSinceTimeZone = inAtTimeZone
+                    self.timeZone = inAtTimeZone // Use this time zone to punch in or out later
+                    self.currentTask = taskString
+                    self.currentJob = jobString
+                    self.currentCustomer = customerString
                     
                     // User is punched in and will be pushed to status in view controller.
                     let statusInVC: StatusInViewController?

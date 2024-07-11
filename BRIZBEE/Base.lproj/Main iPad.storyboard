@@ -60,6 +60,9 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" secureTextEntry="YES"/>
+                                                <connections>
+                                                    <action selector="loginAction:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="5f1-8b-Bar"/>
+                                                </connections>
                                             </textField>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8R-st-hrw">
                                                 <rect key="frame" x="200" y="545" width="434" height="65"/>
@@ -95,6 +98,9 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="continue"/>
+                                                <connections>
+                                                    <action selector="loginAction:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="5xW-If-URO"/>
+                                                </connections>
                                             </textField>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="vJ6-xM-sWF">
                                                 <rect key="frame" x="267" y="100" width="300" height="79"/>
@@ -181,6 +187,9 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="onContinueButton:" destination="T8q-Dk-tDh" eventType="primaryActionTriggered" id="WFR-q5-XaM"/>
+                                                </connections>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="eYs-Xo-ENG">
                                                 <rect key="frame" x="200" y="195" width="304" height="235"/>
@@ -567,7 +576,7 @@
                                                 </subviews>
                                             </stackView>
                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="lCf-pz-wBp">
-                                                <rect key="frame" x="342" y="523" width="20" height="19"/>
+                                                <rect key="frame" x="342" y="523" width="20" height="20"/>
                                             </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -956,6 +965,9 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="onContinueButton:" destination="fkj-Eb-BwR" eventType="primaryActionTriggered" id="S1J-NR-2cC"/>
+                                                </connections>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vf6-d5-U2L">
                                                 <rect key="frame" x="200" y="195" width="264" height="235"/>
@@ -1133,6 +1145,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="onContinueButton:" destination="LdY-Ok-DDI" eventType="touchUpInside" id="MES-sv-vKC"/>
+                                                            <action selector="onContinueButton:" destination="LdY-Ok-DDI" eventType="primaryActionTriggered" id="eNF-t0-chv"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8G8-eQ-ZbR">
