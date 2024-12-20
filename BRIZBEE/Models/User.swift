@@ -32,4 +32,5 @@ struct User {
     let timeZone: String
     let usesMobileApp: Bool
     let usesTimeCards: Bool
+    let requiresLocation: Bool
 }

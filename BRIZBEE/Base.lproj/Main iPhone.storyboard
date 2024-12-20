@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FSi-u1-Ocf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FSi-u1-Ocf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -437,11 +437,18 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="255" text="Acquiring Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNs-Rt-Ymx">
+                                <rect key="frame" x="111" y="700" width="193" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="13x-QM-lRI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="edi-Xc-gdt" firstAttribute="top" secondItem="fDr-jj-AK4" secondAttribute="bottom" constant="47" id="3be-nq-NHW"/>
+                            <constraint firstItem="PNs-Rt-Ymx" firstAttribute="bottom" secondItem="Nb9-w4-1yr" secondAttribute="bottom" constant="100" id="5Zd-Pb-R54"/>
                             <constraint firstItem="13x-QM-lRI" firstAttribute="trailing" secondItem="Nb9-w4-1yr" secondAttribute="trailing" constant="20" id="9Ei-F2-3bQ"/>
                             <constraint firstItem="yMu-R0-Htj" firstAttribute="centerX" secondItem="13x-QM-lRI" secondAttribute="centerX" id="Ad3-Ro-Zka"/>
                             <constraint firstItem="Tlm-Sv-Cbx" firstAttribute="top" secondItem="yMu-R0-Htj" secondAttribute="bottom" constant="35" id="C5d-VX-C9t"/>
@@ -455,6 +462,7 @@
                             <constraint firstItem="13x-QM-lRI" firstAttribute="trailing" secondItem="QQi-kI-mTK" secondAttribute="trailing" constant="22" id="YOj-GZ-hvN"/>
                             <constraint firstItem="fDr-jj-AK4" firstAttribute="centerX" secondItem="13x-QM-lRI" secondAttribute="centerX" id="YRm-4S-T5F"/>
                             <constraint firstItem="fDr-jj-AK4" firstAttribute="top" secondItem="RNI-cU-EJJ" secondAttribute="bottom" constant="-1" id="YTK-S2-5DK"/>
+                            <constraint firstItem="PNs-Rt-Ymx" firstAttribute="centerX" secondItem="13x-QM-lRI" secondAttribute="centerX" id="Yym-cG-NAX"/>
                             <constraint firstItem="QQi-kI-mTK" firstAttribute="leading" secondItem="13x-QM-lRI" secondAttribute="leading" constant="22" id="fNc-RL-Y3k"/>
                             <constraint firstItem="4Y2-V1-C5k" firstAttribute="top" secondItem="qYQ-3K-V7H" secondAttribute="bottom" id="fbK-UX-yYA"/>
                             <constraint firstItem="Nb9-w4-1yr" firstAttribute="leading" secondItem="13x-QM-lRI" secondAttribute="leading" constant="22" id="kFz-A7-meu"/>
@@ -476,6 +484,7 @@
                         <outlet property="jobHeaderLabel" destination="Tlm-Sv-Cbx" id="lyE-Ic-nMH"/>
                         <outlet property="jobLabel" destination="8it-Ns-thi" id="DVE-oh-tyN"/>
                         <outlet property="loadingIndicator" destination="nSP-T1-adH" id="GnE-QX-wgb"/>
+                        <outlet property="statusLabel" destination="PNs-Rt-Ymx" id="MFp-RI-xgO"/>
                         <outlet property="taskHeaderLabel" destination="RNI-cU-EJJ" id="Isq-hl-B3Q"/>
                         <outlet property="taskLabel" destination="fDr-jj-AK4" id="6lz-rP-SOW"/>
                         <outlet property="timeZoneTextField" destination="QQi-kI-mTK" id="fbd-R2-jjx"/>
@@ -565,10 +574,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="255" text="Acquiring Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVg-aK-Dgl">
+                                <rect key="frame" x="110" y="498" width="193" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4eg-vD-aHt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="QVg-aK-Dgl" firstAttribute="bottom" secondItem="QoP-k2-Zng" secondAttribute="bottom" constant="100" id="17s-aP-EQ1"/>
                             <constraint firstItem="X9q-eL-JmI" firstAttribute="top" secondItem="BMn-iF-mhb" secondAttribute="bottom" constant="47" id="4ip-2Y-nd6"/>
                             <constraint firstItem="ki1-fs-1l1" firstAttribute="top" secondItem="X9q-eL-JmI" secondAttribute="bottom" constant="8" id="6ty-Ds-1UA"/>
                             <constraint firstItem="QoP-k2-Zng" firstAttribute="top" secondItem="96E-87-1o6" secondAttribute="bottom" constant="13" id="89n-wA-e3r"/>
@@ -577,6 +593,7 @@
                             <constraint firstItem="BMn-iF-mhb" firstAttribute="top" secondItem="4eg-vD-aHt" secondAttribute="top" constant="113" id="FEf-1F-Sui"/>
                             <constraint firstItem="96E-87-1o6" firstAttribute="leading" secondItem="4eg-vD-aHt" secondAttribute="leading" constant="22" id="HkV-nu-o1r"/>
                             <constraint firstItem="4eg-vD-aHt" firstAttribute="trailing" secondItem="96E-87-1o6" secondAttribute="trailing" constant="22" id="QFR-iO-Zah"/>
+                            <constraint firstItem="QVg-aK-Dgl" firstAttribute="centerX" secondItem="4eg-vD-aHt" secondAttribute="centerX" id="aEh-YJ-Rpz"/>
                             <constraint firstItem="X9q-eL-JmI" firstAttribute="centerX" secondItem="4eg-vD-aHt" secondAttribute="centerX" id="cLa-zL-Ubl"/>
                             <constraint firstItem="4eg-vD-aHt" firstAttribute="trailing" secondItem="QoP-k2-Zng" secondAttribute="trailing" constant="22" id="fcO-Rv-Tli"/>
                             <constraint firstItem="QoP-k2-Zng" firstAttribute="leading" secondItem="4eg-vD-aHt" secondAttribute="leading" constant="22" id="pUg-Zj-eak"/>
@@ -586,7 +603,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="qca-e8-LJe"/>
                     <connections>
+                        <outlet property="continueButton" destination="96E-87-1o6" id="ZvY-Ma-Zkg"/>
                         <outlet property="loadingIndicator" destination="lCf-pz-wBp" id="nO9-h5-kZg"/>
+                        <outlet property="statusLabel" destination="QVg-aK-Dgl" id="4VY-3t-GPd"/>
                         <outlet property="timeZoneTextField" destination="ki1-fs-1l1" id="egJ-Ko-eMg"/>
                     </connections>
                 </viewController>

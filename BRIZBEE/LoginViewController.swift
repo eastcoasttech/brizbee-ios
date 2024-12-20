@@ -237,12 +237,14 @@ class LoginViewController: UIViewController {
                 let timeZoneString = json["timeZone"] as? String ?? ""
                 let usesTimeCards = json["usesTimesheets"] as? Bool ?? false
                 let usesMobileApp = json["usesMobileClock"] as? Bool ?? false
+                let requiresLocation = json["requiresLocation"] as? Bool ?? false
                 self.user = User(name: nameString,
                                  emailAddress: emailString,
                                  id: idString,
                                  timeZone: timeZoneString,
                                  usesMobileApp: usesMobileApp,
-                                 usesTimeCards: usesTimeCards)
+                                 usesTimeCards: usesTimeCards,
+                                 requiresLocation: requiresLocation)
                 
                 // Check if the user is allowed to use the mobile app.
                 if (usesMobileApp == false) {

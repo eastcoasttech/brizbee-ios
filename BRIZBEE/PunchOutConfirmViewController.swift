@@ -36,12 +36,17 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
     
     @IBOutlet weak var timeZoneTextField: UITextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var statusLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Hide the back button.
         navigationItem.hidesBackButton = true
+        
+        // Immediately hide the continue button.
+        self.continueButton.isHidden = true
     }
     
     override func viewDidLoad() {
@@ -89,13 +94,89 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
             }
         }
         
-        // Location only needed while app is open
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
+        DispatchQueue.global().async {
+            
+            if CLLocationManager.locationServicesEnabled() {
+                
+                self.locationManager.delegate = self
+                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                
+                self.checkLocationAuthorization()
+                
+            } else {
+                
+                DispatchQueue.main.async {
+                    if (self.user!.requiresLocation)
+                    {
+                        _ = self.navigationController?.popViewController(animated: true)
+                        
+                        let alert = UIAlertController(title: "Oops!",
+                                                      message: "Location services must be enabled because your location is required to punch in and out.",
+                                                      preferredStyle: .alert)
+                        let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                        alert.addAction(alertOKAction)
+                        self.present(alert, animated: true, completion:nil)
+                    } else {
+                        // Update the interface.
+                        self.statusLabel.isHidden = true
+                        self.continueButton.isHidden = false
+                    }
+                }
+            }
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        self.checkLocationAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        DispatchQueue.main.async {
+            if (self.user!.requiresLocation)
+            {
+                _ = self.navigationController?.popViewController(animated: true)
+                
+                let alert = UIAlertController(title: "Oops!",
+                                              message: "Could not get your location and it is required to punch in and out.",
+                                              preferredStyle: .alert)
+                let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                alert.addAction(alertOKAction)
+                self.present(alert, animated: true, completion:nil)
+            } else {
+                // Update the interface.
+                self.statusLabel.isHidden = true
+                self.continueButton.isHidden = false
+            }
+        }
+    }
+    
+    private func checkLocationAuthorization() {
+        switch locationManager.authorizationStatus {
+            
+        case .notDetermined:
+            self.locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            DispatchQueue.main.async {
+                if (self.user!.requiresLocation)
+                {
+                    _ = self.navigationController?.popViewController(animated: true)
+                    
+                    let alert = UIAlertController(title: "Oops!",
+                                                  message: "Must allow your location because your location is required to punch in and out.",
+                                                  preferredStyle: .alert)
+                    let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                    alert.addAction(alertOKAction)
+                    self.present(alert, animated: true, completion:nil)
+                } else {
+                    // Update the interface.
+                    self.statusLabel.isHidden = true
+                    self.continueButton.isHidden = false
+                }
+            }
+        case .authorizedWhenInUse, .authorizedAlways:
+            self.locationManager.requestLocation()
+        default:
+            break
         }
     }
     
@@ -114,6 +195,21 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         
         // Hide toolbar.
         self.view.endEditing(true)
+        
+        // Ensure the location is ready.
+        if (self.user!.requiresLocation && latitude == "" && longitude == "")
+        {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Oops!",
+                                              message: "Your location is not ready yet, try again after a few seconds.",
+                                              preferredStyle: .alert)
+                let alertOKAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                alert.addAction(alertOKAction)
+                self.present(alert, animated: true, completion:nil)
+            }
+            
+            return
+        }
         
         // Show loading indicator.
         self.loadingVC = LoadingViewController()
@@ -226,6 +322,10 @@ class PunchOutConfirmViewController: UIViewController, UIPickerViewDelegate, UIP
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         latitude = String(locValue.latitude)
         longitude = String(locValue.longitude)
+        
+        // Update the interface.
+        self.statusLabel.isHidden = true;
+        self.continueButton.isHidden = false;
     }
     
     func handleError(error: String?) {
